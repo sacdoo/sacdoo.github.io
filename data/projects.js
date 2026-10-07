@@ -611,9 +611,7 @@ True to Woori`,
   "b",
   "https://mir-s3-cdn-cf.behance.net/projects/max_808/646cd3228220883.Y3JvcCwxNjk2LDEzMjcsMTE1MCww.png"
  ],
- "hero": [
-  "v",
-  "1093580364",
+ "hero": ["l", "gm-tarx.web.mp4",
   100,
   1.5
  ],
@@ -667,9 +665,7 @@ True to Woori`,
   "b",
   "https://mir-s3-cdn-cf.behance.net/projects/max_808/8d8cc8227717235.Y3JvcCwyNTg4LDIwMjQsNjM0LDEwOA.png"
  ],
- "hero": [
-  "v",
-  "1091643565",
+ "hero": ["l", "peaceminusone.web.mp4",
   100,
   1.778
  ],
@@ -717,9 +713,7 @@ True to Woori`,
   "b",
   "https://mir-s3-cdn-cf.behance.net/projects/max_808/8cbb99226999681.Y3JvcCwyNzYxLDIxNjAsNTQwLDA.png"
  ],
- "hero": [
-  "v",
-  "1088682165",
+ "hero": ["l", "gradient-blur-hero.web.mp4",
   100,
   1.778
  ],
@@ -743,9 +737,7 @@ True to Woori`,
    96,
    0.68
   ],
-  [
-   "v",
-   "1088681898",
+  ["l", "gradient-blur-02.web.mp4",
    96,
    1.778
   ],
