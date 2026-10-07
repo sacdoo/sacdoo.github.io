@@ -46,7 +46,8 @@ a{color:inherit}
   width:30px;height:30px;display:grid;place-items:center;border-radius:50%;margin-right:2px}
 .items{display:flex;align-items:center;height:100%}
 .items a{font-size:13px;font-weight:500;text-decoration:none;padding:0 11px;height:30px;display:flex;align-items:center;border-radius:999px;opacity:.82;transition:opacity .2s}
-.items a.is-active,.items a:hover{opacity:1}
+.items a.is-active{opacity:1}
+@media (hover:hover){.items a:hover{opacity:1}}
 .items a{transition:opacity .2s,color .18s}
 .items a.on-pill{color:var(--glass-ink-light);opacity:1}
 .bar a:focus-visible{outline:2px solid currentColor;outline-offset:-4px}
@@ -105,7 +106,7 @@ a{color:inherit}
 .contact h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(44px,8vw,120px);letter-spacing:-.045em;line-height:.95}
 .contact .label{color:rgba(241,239,233,.6)}
 .contact .mail{display:inline-block;font-family:var(--f-mono);font-size:15px;color:inherit;text-decoration:none;border-bottom:1px solid rgba(241,239,233,.3);padding-bottom:2px;transition:border-color .2s}
-.contact .mail:hover{border-color:currentColor}
+@media (hover:hover){.contact .mail:hover{border-color:currentColor}}
 
 @media (max-width:700px){.hero-side{align-items:flex-start}}
 
@@ -140,7 +141,7 @@ a{color:inherit}
 .pj-foot a{text-decoration:none}
 .pj-foot .src{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .pj-foot .next{font-family:var(--f-display);font-size:clamp(24px,3vw,40px);font-weight:600;letter-spacing:-.02em}
-.pj-foot .next:hover{color:var(--accent)}
+@media (hover:hover){.pj-foot .next:hover{color:var(--accent)}}
 
 /* ---------- Tilted thumbnails ---------- */
 .card .tilt{position:relative;perspective:800px}
@@ -239,7 +240,8 @@ body[data-seamless] .pj-media .box > img{position:static;height:auto}
 .sns-row{display:flex;align-items:center;gap:22px}
 .sns{display:block;color:var(--on-night);opacity:.75;transition:opacity .2s,transform .35s cubic-bezier(.34,1.56,.64,1)}
 .sns svg{width:20px;height:20px;fill:currentColor;display:block}
-.sns:hover,.sns:focus-visible{opacity:1;transform:translateY(-2px)}
+.sns:focus-visible{opacity:1}
+@media (hover:hover){.sns:hover{opacity:1;transform:translateY(-2px)}}
 .big-role{flex:1 0 100%;min-width:0;width:100%;margin:28px 0 0;line-height:.86;color:#00ff00;white-space:nowrap;overflow:visible}
 .big-role .tp{display:block;font-family:'Roboto Flex',var(--f-display);font-weight:700;font-size:calc((100vw - 2 * var(--gutter)) / 6.9);letter-spacing:-.02em;font-variation-settings:'wdth' 100,'wght' 700,'opsz' 144}
 .big-role .tp-line{display:block;width:max-content;transform-origin:0 50%}
@@ -261,6 +263,5 @@ html,body{overflow-x:clip} /* hover labels / zoomed thumbs must never cause side
   .grid:not(.as-list){gap:22px 12px}
   /* big "Brand / Animator" on two lines */
   .big-role{line-height:.84;margin-top:22px}
-  .big-role .tp{touch-action:pan-y}
 }
 .meta .ty{display:none}

@@ -42,7 +42,7 @@
   const kick=()=>{ if(!raf) raf=requestAnimationFrame(loop); };
   function start(){
     build(); hold();
-    if(RM) return;
+    if(RM||!matchMedia('(hover: hover) and (pointer: fine)').matches) return;   // no pointer effects on touch devices
     const zone=host.parentElement;
     zone.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse'){ active=true; mx=e.clientX; my=e.clientY; kick(); } });
     zone.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse'){ active=true; mx=e.clientX; my=e.clientY; kick(); } });
