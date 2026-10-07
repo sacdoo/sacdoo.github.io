@@ -171,7 +171,7 @@ function renderGlass(dt){
   if(frameN%6===0){ let lum=.3; try{ lum=sampleTone(); }catch(e){} const tone=lum<.55?'dark':'light'; if(tone!==lastTone){lastTone=tone;bar.dataset.tone=tone;} }
   dark+=((lastTone==='dark'?1:0)-dark)*Math.min(1,dt*6);
 
-  const target=activeEl;
+  const target=bar.classList.contains('is-collapsed')?null:activeEl; // collapsed bar: no pill
   if(target){
     const tr=target.getBoundingClientRect();
     const tx=tr.left+tr.width/2-(r.left+r.width/2), tw=tr.width;
