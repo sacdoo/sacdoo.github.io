@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Taeeun Eom — Brand Animator</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script>document.write('<link rel="stylesheet" href="assets/site.css?v='+Date.now()+'">')</script>
+</head>
+<body>
+<nav class="bar" id="bar" data-tone="dark" aria-label="Main">
+  <canvas id="glass" aria-hidden="true"></canvas>
+  <div class="bar-inner">
+    <div class="items" id="items">
+      <a href="#work" data-sec="work">Work</a>
+      <a href="#about" data-sec="about">About</a>
+      <a href="#contact" data-sec="contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="reel" data-mirror="media" aria-label="Showreel loop (placeholder animation)"></canvas>
+  <iframe id="reelVimeo" data-mirror="media" title="Showreel" allow="autoplay; fullscreen; picture-in-picture" tabindex="-1" hidden></iframe>
+  <video id="reelVideo" data-mirror="media" muted loop playsinline autoplay preload="auto" crossorigin="anonymous" hidden></video>
+</header>
+
+
+<main>
+  <section class="work wrap" id="work">
+    <div class="work-head">
+      <div>
+        <h2><span data-mirror="text">Work</span><sup id="count"></sup></h2>
+      </div>
+      <div class="view-toggle" role="group" aria-label="Layout">
+        <button type="button" id="vGrid" aria-pressed="true">Grid</button>
+        <button type="button" id="vList" aria-pressed="false">List</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="about wrap" id="about">
+    <div class="label"><span data-mirror="text">About</span></div>
+    <div class="ab-body">
+      <p class="ab-lead"><span data-mirror="text">Giving life to Brands,</span> not just motion to graphics.</p>
+      <p class="ab-text">The word ‘animator’ comes from ‘anima’ — to breathe life into. I design brands as living systems that breathe with users and resonate with them.</p>
+      <div class="ab-cols">
+        <div class="ab-col"><h3>Services</h3><ul><li>Motion Identity</li><li>Logo &amp; Symbol Animation</li><li>Brand Film</li><li>Keyvisual Design</li><li>Brand Design</li><li>Interactive &amp; Generative Motion</li></ul></div>
+        <div class="ab-col"><h3>Partners</h3><ul><li>SAM SEOUL</li><li>Brenden</li><li>NA1</li><li>Named</li><li>Elago</li></ul></div>
+        <div class="ab-col"><h3>Recognition</h3><ul><li>iF Design Award 2024<small>Kodex — Communication Branding</small></li><li>Design iT Award 2023, Silver<small>SK enmove ZIC</small></li></ul></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="contact" id="contact" data-mirror="box">
+  <div class="wrap">
+    <a class="mail" href="mailto:taeeun.sac@gmail.com"><span data-mirror="text">taeeun.sac@gmail.com</span></a>
+    <!-- TODO: replace the # with real profile links -->
+    <div class="sns-row">
+        <a class="sns" href="#" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/></svg></a>
+        <a class="sns" href="#" target="_blank" rel="noopener" aria-label="Threads" title="Threads"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.321 6.016c-.27-.18-1.166-.802-1.166-.802.756-1.081 1.753-1.502 3.132-1.502.975 0 1.803.327 2.394.948s.928 1.509 1.005 2.644q.492.207.905.484c1.109.745 1.719 1.86 1.719 3.137 0 2.716-2.226 5.075-6.256 5.075C4.594 16 1 13.987 1 7.994 1 2.034 4.482 0 8.044 0 9.69 0 13.55.243 15 5.036l-1.36.353C12.516 1.974 10.163 1.43 8.006 1.43c-3.565 0-5.582 2.171-5.582 6.79 0 4.143 2.254 6.343 5.63 6.343 2.777 0 4.847-1.443 4.847-3.556 0-1.438-1.208-2.127-1.27-2.127-.236 1.234-.868 3.31-3.644 3.31-1.618 0-3.013-1.118-3.013-2.582 0-2.09 1.984-2.847 3.55-2.847.586 0 1.294.04 1.663.114 0-.637-.54-1.728-1.9-1.728-1.25 0-1.566.405-1.967.868ZM8.716 8.19c-2.04 0-2.304.87-2.304 1.416 0 .878 1.043 1.168 1.6 1.168 1.02 0 2.067-.282 2.232-2.423a6.2 6.2 0 0 0-1.528-.161"/></svg></a>
+        <a class="sns" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a>
+      </div>
+    <p class="big-role" aria-label="Brand Animator"><span class="tp" aria-hidden="true">Brand Animator</span></p>
+  </div>
+</footer>
+
+<script>/* always load the latest project data (no stale browser cache) */document.write('<script src="data/projects.js?v='+Date.now()+'"><\/script>')</script>
+<script>
+(() => {
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DPR = Math.min(window.devicePixelRatio || 1, 2);
+const C = {ink:'#0e0e13', blue:'#3d5afe', orange:'#ff7a45', pink:'#ffc8dd', cream:'#f1efe9', violet:'#8b7bff'};
+const ease = {
+  outBack:x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)},
+  outExpo:x=>x>=1?1:1-Math.pow(2,-10*x),
+  inOut:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2
+};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function sizeCanvas(cv, scale){
+  const r = cv.getBoundingClientRect();
+  const w = Math.max(1,Math.round(r.width*scale)), h = Math.max(1,Math.round(r.height*scale));
+  if (cv.width!==w || cv.height!==h){ cv.width=w; cv.height=h; return true; }
+  return false;
+}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+
+/* ---------------- Placeholder reel ---------------- */
+const reel = document.getElementById('reel'), rctx = reel.getContext('2d');
+const RS = Math.min(DPR,1.5), SCENE = 2.8;
+let reelT = 0, paused = reduce;
+function drawReel(t){
+  sizeCanvas(reel,RS);
+  const W=reel.width/RS, H=reel.height/RS, ctx=rctx;
+  ctx.setTransform(RS,0,0,RS,0,0);
+  const sIdx = Math.floor(t/SCENE)%3, lt = t%SCENE, intro = ease.outBack(clamp(lt/.45,0,1));
+  const m = Math.min(W,H), portrait = W/H < 1.05;
+  if (sIdx===0){
+    const ox = portrait?W*.5:W*.62, oy = portrait?H*.33:H*.42, ry = portrait?.9:.8;
+    ctx.fillStyle=C.ink; ctx.fillRect(0,0,W,H);
+    const cols=[C.blue,C.orange,C.pink,C.violet,C.cream];
+    ctx.globalCompositeOperation='lighter';
+    for(let i=0;i<5;i++){ const a=t*1.1+i*1.2566, R=m*.3*intro;
+      ctx.fillStyle=cols[i]; ctx.globalAlpha=.85; ctx.beginPath();
+      ctx.arc(ox+Math.cos(a)*R*1.25, oy+Math.sin(a)*R*ry, m*(.09+.03*Math.sin(t*2+i)),0,Math.PI*2); ctx.fill(); }
+    ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1;
+    ctx.strokeStyle='rgba(241,239,233,.35)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.ellipse(ox,oy,m*.375*intro,m*.3*ry*intro,0,0,Math.PI*2); ctx.stroke();
+  } else if (sIdx===1){
+    ctx.fillStyle=C.blue; ctx.fillRect(0,0,W,H);
+    const words=['MOTION','IDENTITY','SYSTEMS'], fs=Math.min(H*.25,W*.2), mid=portrait?H*.36:H*.5;
+    ctx.font=`800 ${fs}px "Pretendard Variable", Pretendard, sans-serif`; ctx.textBaseline='middle';
+    words.forEach((w,i)=>{ const dir=i%2?1:-1, tw=ctx.measureText(w+'  ').width;
+      const off=((lt*90*dir)+(1-intro)*W*.3*dir)%tw; ctx.fillStyle= i===1?C.orange:'rgba(241,239,233,.9)';
+      for(let x=-tw+off;x<W+tw;x+=tw) ctx.fillText(w,x,mid+(i-1)*fs*1.15); });
+  } else {
+    ctx.fillStyle='#1b1b24'; ctx.fillRect(0,0,W,H);
+    const cell=clamp(W/14,40,110), cols=Math.ceil(W/cell)+1, rows=Math.ceil(H/cell)+1;
+    for(let j=0;j<rows;j++) for(let i=0;i<cols;i++){
+      const v=ease.inOut((Math.sin(t*2.2-(i+j)*.32)+1)/2), s=cell*.5*intro;
+      ctx.save(); ctx.translate(i*cell+cell/2,j*cell+cell/2); ctx.rotate(v*Math.PI/2);
+      ctx.fillStyle=(i+j)%3===0?C.orange:(i+j)%3===1?C.pink:'rgba(241,239,233,.18)';
+      ctx.fillRect(-s/2,-s/2,s,s); ctx.restore(); }
+  }
+}
+/* Real reel: set file paths here. 'narrow' is an optional vertical/cropped cut for phones. */
+/* Reel source priority: local mp4 (wide/narrow) > Vimeo id > placeholder canvas animation */
+const REEL={vimeo:'1149622442', vimeoRatio:426/240, wide:'assets/media/reel.mp4', narrow:''}; // e.g. wide:'assets/media/reel.mp4'
+const vimeo=document.getElementById('reelVimeo');
+let useVimeo=false;
+function fitVimeo(){ if(!useVimeo) return; const h=vimeo.parentElement.getBoundingClientRect(), R=REEL.vimeoRatio; let w=h.width, ht=w/R; if(ht<h.height){ ht=h.height; w=ht*R; } Object.assign(vimeo.style,{width:w+'px',height:ht+'px',left:(h.width-w)/2+'px',top:(h.height-ht)/2+'px'}); }
+addEventListener('resize',fitVimeo);
+const video=document.getElementById('reelVideo'), scrim=null;
+const narrowMQ=matchMedia('(max-width: 700px)');
+let useVideo=false;
+if(location.protocol==='file:') document.getElementById('reelVideo').removeAttribute('crossorigin');
+function pickReel(){
+  const want=(narrowMQ.matches&&REEL.narrow)?REEL.narrow:REEL.wide;
+  useVideo=!!want; useVimeo=!useVideo&&!!REEL.vimeo;
+  video.hidden=!useVideo; vimeo.hidden=!useVimeo; reel.hidden=useVideo||useVimeo;
+  if(useVimeo&&!vimeo.src){ vimeo.src=`https://player.vimeo.com/video/${REEL.vimeo}?background=1&autoplay=1&loop=1&muted=1&autopause=0&title=0&byline=0&portrait=0&controls=0&dnt=1`; } fitVimeo();
+  if(useVideo && video.dataset.src!==want){ video.dataset.src=want; video.src=want; if(!paused) video.play().catch(()=>{}); }
+}
+narrowMQ.addEventListener('change',pickReel); pickReel();
+const tcEl=document.getElementById('tc'); // removed from UI; kept optional
+function updateTC(t){ if(!tcEl) return; const f=Math.floor(t*24), fr=f%24, s=Math.floor(f/24)%60, mi=Math.floor(f/1440)%60;
+  const p=n=>String(n).padStart(2,'0'); tcEl.textContent=`TC 00:${p(mi)}:${p(s)}:${p(fr)} · 24fps`; }
+const reelBtn=document.getElementById('reelBtn');
+function syncReelBtn(){ if(!reelBtn) return; reelBtn.textContent = paused ? '▶ Play loop' : '❚❚ Pause loop'; reelBtn.setAttribute('aria-pressed', String(paused)); }
+reelBtn&&reelBtn.addEventListener('click',()=>{ paused=!paused; syncReelBtn(); if(useVideo){ paused?video.pause():video.play().catch(()=>{}); } }); syncReelBtn();
+
+/* ---------------- View toggle ---------------- */
+const vGrid=document.getElementById('vGrid'), vList=document.getElementById('vList');
+function setView(list){ grid.classList.toggle('as-list',list); vGrid.setAttribute('aria-pressed',String(!list)); vList.setAttribute('aria-pressed',String(list)); }
+vGrid.onclick=()=>setView(false); vList.onclick=()=>setView(true);
+
+
+
+/* ---------------- Projects ---------------- */
+const CO=location.protocol==='file:'?'':'crossorigin="anonymous"'; // file:// pages can't use CORS on local files
+const IMG='https://framerusercontent.com/images/', LOCAL='assets/media/';
+const grid=document.getElementById('grid');
+const ME='엄태은';
+const myRole=p=>p.credits.filter(([r,n])=>n.includes(ME)).map(([r])=>r).join(', ');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('count').textContent=`(${String(PROJECTS.length).padStart(2,'0')})`;
+// still frame (seconds) shown while not hovered — the moment each logo animation is complete
+const POSTER_T={D7FrS2pCx3tkhGFpvC2UyA92Do:3.8,GDX0MY4Gw3PF1p2WWPE87ubZw:4.0,IvrkBB9Xs7xpVPMlWqHKiUvqw:0,KOr16F4rDiDTpmL7kXOdEoJ0h90:3.9,knr445NYIhuuhWYipWCBBtvCzE:2.5};
+const thumbHTML=p=>{
+  const base=p.thumb[1].split('?')[0], stem=base.replace(/\.[a-z0-9]+$/i,'');
+  if(p.thumb[0]==='lv'){ const f=p.thumb[1], st=f.replace(/\.mp4$/,''); // local logo-animation clip, still on its finished frame
+    return `<video class="thumb" data-mirror="media" ${CO} muted loop playsinline preload="auto" poster="${LOCAL+st}.thumb.jpg" src="${LOCAL+f}" data-t="${p.thumb[2]||0}"${p.thumb[4]?' data-still-zoom':''}${p.thumb[3]?` style="transform:scale(${p.thumb[3]})${p.thumb[3]<1?';box-shadow:0 0 0 100vmax #0d0d0d':''}"`:''} aria-label="${esc(p.title)}"></video>`; }
+  if(p.thumb[0]==='L') return `<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${LOCAL+p.thumb[1]}">`;
+  if(p.thumb[0]==='b') return `<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${LOCAL+base.split('/').pop()}" data-remote="${p.thumb[1]}" onerror="if(this.dataset.remote){this.removeAttribute('crossorigin');this.src=this.dataset.remote;this.dataset.remote=''}">`;
+  if(/\.(gif|webp)$/i.test(base)) // animated thumbs: converted to mp4 so they can stay still until hover
+    return `<video class="thumb" data-mirror="media" ${CO} muted loop playsinline preload="auto" poster="${LOCAL+stem}.thumb.jpg" data-t="${POSTER_T[stem]||0}" src="${LOCAL+stem}.thumb.mp4" aria-label="${esc(p.title)}"></video>`;
+  return `<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${LOCAL+base}" data-remote="${IMG+p.thumb[1]}" onerror="if(this.dataset.remote){this.removeAttribute('crossorigin');this.src=this.dataset.remote;this.dataset.remote=''}">`;
+};
+PROJECTS.forEach(p=>{
+  const a=document.createElement('a'); a.className='card'; a.setAttribute('aria-label',p.title.replace(/\n/g,' ')); a.href=`project.html?p=${encodeURIComponent(p.slug)}`;
+  a.innerHTML=`<div class="tilt"><div class="tilt-inner">${thumbHTML(p)}</div><span class="tilt-cap" aria-hidden="true">${esc(p.label||p.title.replace(/\n/g,' '))}${p.type?`<small>${esc(p.type)}</small>`:''}</span></div>
+    <div class="meta"><span class="t" data-mirror="text"><b>${esc(p.label||p.title.replace(/\n/g,' '))}</b></span><span class="r" data-mirror="text">${esc(p.contrib||myRole(p))} · ${p.year}</span></div>`;
+  grid.appendChild(a);
+  tilt(a.querySelector('.tilt'));
+  const v=a.querySelector('video.thumb');
+  if(v){ const t0=+v.dataset.t||0, rest=()=>{ try{ v.currentTime=t0; }catch(e){} };
+    v.readyState>=1 ? rest() : v.addEventListener('loadedmetadata',rest,{once:true});
+    const st0=v.getAttribute('style')||'', shrunk=/scale\(0\./.test(st0)||v.hasAttribute('data-still-zoom'); // still-only zoom → plays full-frame
+    const play=()=>{ if(shrunk) v.removeAttribute('style'); try{ v.currentTime=0; }catch(e){} v.play().catch(()=>{}); }, stop=()=>{ v.pause(); rest(); if(shrunk) v.setAttribute('style',st0); }; // hover starts the animation from its first frame (not the held end frame)
+    a.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') play(); });
+    a.addEventListener('pointerleave',stop); a.addEventListener('focus',play); a.addEventListener('blur',stop); }
+});
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000); last=now;
+  if(useVideo){ updateTC(video.currentTime||0); }
+  else if(!useVimeo){ if(!paused) reelT+=dt; drawReel(reelT); updateTC(reelT); }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ---------------- Tilted thumbnails (after React Bits TiltedCard) ---------------- */
+function tilt(box){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!matchMedia('(hover: hover)').matches) return;
+  const inner=box.querySelector('.tilt-inner'), cap=box.querySelector('.tilt-cap');
+  const AMP=12, SCALE=1.05;
+  // springs: [value, velocity, target, stiffness, damping, mass]
+  const sp=(k=320,c=34,m=1)=>({x:0,v:0,t:0,k,c,m});
+  const rx=sp(), ry=sp(), sc=sp(), op=sp(), cr=sp(110,11,1), ps=sp(520,16,1); // cr: label rotation — soft, lagging spring so the swing reads // ps: label pop-up scale (bouncy)
+  ps.x=ps.t=.4;
+  sc.x=sc.t=1;
+  let cx=0, cy=0, lastY=0, running=false, last=0;
+  const step=(s,dt)=>{ const a=(s.k*(s.t-s.x)-s.c*s.v)/s.m; s.v+=a*dt; s.x+=s.v*dt; return Math.abs(s.t-s.x)+Math.abs(s.v); };
+  function loop(now){
+    const dt=Math.min(.032,(now-last)/1000||.016); last=now;
+    cr.t*=Math.pow(.04,dt);            // swing target relaxes back to 0 when the pointer stops
+    let e=0; for(const s of [rx,ry,sc,op,cr,ps]) e+=step(s,dt);
+    inner.style.transform=`rotateX(${rx.x}deg) rotateY(${ry.x}deg) scale(${sc.x})`;
+    cap.style.opacity=Math.max(0,Math.min(1,op.x));
+    cap.style.transform=`translate(${cx}px,${cy}px) rotate(${cr.x}deg) scale(${Math.max(0,ps.x)})`;
+    if(e>.001) requestAnimationFrame(loop); else running=false;
+  }
+  const kick=()=>{ if(!running){ running=true; last=performance.now(); requestAnimationFrame(loop); } };
+  box.addEventListener('pointermove',e=>{
+    if(e.pointerType!=='mouse') return;
+    const r=box.getBoundingClientRect(), ox=e.clientX-r.left-r.width/2, oy=e.clientY-r.top-r.height/2;
+    rx.t=(oy/(r.height/2))*-AMP; ry.t=(ox/(r.width/2))*AMP;
+    cx=e.clientX-r.left; cy=e.clientY-r.top;
+    cr.t=Math.max(-22,Math.min(22,cr.t*.5-(oy-lastY)*.9)); lastY=oy; kick();
+  });
+  box.addEventListener('pointerenter',e=>{ if(e.pointerType!=='mouse') return; sc.t=SCALE; op.t=1; ps.t=1; ps.x=Math.min(ps.x,.4); kick(); });
+  box.addEventListener('pointerleave',()=>{ rx.t=ry.t=0; sc.t=1; op.t=0; cr.t=0; ps.t=.4; kick(); });
+}
+
+
+/* List view: hovering a row shows its thumbnail in a popup that follows the cursor */
+(function(){
+  if(!matchMedia('(hover: hover)').matches) return;
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const peek=document.createElement('div'); peek.className='peek'; peek.setAttribute('aria-hidden','true');
+  const box=document.createElement('div'); box.className='peek-box'; peek.appendChild(box); document.body.appendChild(peek);
+  const sp=(k,c)=>({x:0,v:0,t:0,k,c});
+  const px=sp(260,30), py=sp(260,30), sc=sp(420,22), rot=sp(300,26);
+  let cur=null, mx=0, my=0, running=false, last=0, prevX=0;
+  const step=(s,dt)=>{ const a=s.k*(s.t-s.x)-s.c*s.v; s.v+=a*dt; s.x+=s.v*dt; return Math.abs(s.t-s.x)+Math.abs(s.v); };
+  function target(){
+    const w=peek.offsetWidth, h=peek.offsetHeight, G=44; // clear of the enlarged cursor
+    let x=mx+G; if(x+w>innerWidth-12) x=mx-G-w;
+    let y=my-h/2; y=Math.max(12,Math.min(innerHeight-h-12,y));
+    px.t=x; py.t=y;
+  }
+  function loop(now){
+    const dt=Math.min(.032,(now-last)/1000||.016); last=now;
+    rot.t=Math.max(-8,Math.min(8,(px.t-prevX)*.25)); prevX=px.t;
+    let e=0; for(const s of [px,py,sc,rot]) e+=step(s,dt);
+    peek.style.transform=`translate(${px.x}px,${py.x}px) rotate(${RM?0:rot.x}deg) scale(${Math.max(0,sc.x)})`;
+    if(e>.01||cur) requestAnimationFrame(loop); else { running=false; if(!cur) box.innerHTML=''; }
+  }
+  const kick=()=>{ if(!running){ running=true; last=performance.now(); requestAnimationFrame(loop); } };
+  grid.querySelectorAll('a.card').forEach(a=>{
+    a.addEventListener('pointerenter',e=>{
+      if(e.pointerType!=='mouse'||!grid.classList.contains('as-list')) return;
+      const t=a.querySelector('.thumb'); if(!t) return;
+      const c=t.cloneNode(true); c.removeAttribute('loading'); c.removeAttribute('data-mirror'); if(/scale\(0\./.test(c.getAttribute('style')||'')||c.hasAttribute('data-still-zoom')) c.removeAttribute('style'); /* popup shows shrunken clips full-bleed */ box.innerHTML=''; box.appendChild(c);
+      if(c.tagName==='VIDEO'){ c.muted=true; c.play().catch(()=>{}); }
+      const wasHidden=!cur; cur=a; mx=e.clientX; my=e.clientY; target();
+      if(wasHidden){ px.x=px.t; py.x=py.t; prevX=px.t; px.v=py.v=0; sc.x=RM?1:.3; sc.v=0; }
+      sc.t=1; peek.classList.add('on'); kick();
+    });
+    a.addEventListener('pointermove',e=>{ if(cur!==a) return; mx=e.clientX; my=e.clientY; target(); kick(); });
+    a.addEventListener('pointerleave',()=>{ if(cur!==a) return; cur=null; sc.t=RM?1:.3; peek.classList.remove('on'); kick(); });
+  });
+  addEventListener('scroll',()=>{ if(cur){ cur=null; sc.t=.3; peek.classList.remove('on'); kick(); } },{passive:true});
+})();
+
+/* Clicking a thumbnail fades the page to white, then opens the (white) case page */
+const fade=document.createElement('div'); fade.className='page-fade'; document.body.appendChild(fade);
+grid.addEventListener('click',e=>{
+  const a=e.target.closest('a.card'); if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
+  e.preventDefault(); const pr=PROJECTS.find(x=>a.href.endsWith('p='+encodeURIComponent(x.slug))); fade.style.background=(pr&&pr.bg==='black')?'#000':'#fff'; fade.classList.add('on');
+  const go=()=>{ location.href=a.href; };
+  matchMedia('(prefers-reduced-motion: reduce)').matches ? go() : setTimeout(go,380);
+});
+addEventListener('pageshow',e=>{ if(e.persisted) fade.classList.remove('on'); }); // back button from a case page
+
+})();
+</script>
+<script>document.write('<script src="assets/glass.js?v='+Date.now()+'"><\/script>')</script>
+<script src="assets/vendor/lottie_light.min.js"></script>
+<script src="assets/cursor/sac-symbol.js"></script>
+<script src="assets/cursor/cursor.js"></script>
+<script src="assets/text-pressure.js"></script>
+</body>
+</html>

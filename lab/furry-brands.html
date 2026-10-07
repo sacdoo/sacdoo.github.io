@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Furry Brands — Interactive</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;overflow:hidden}
+  canvas{display:block}
+  .hint{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);font:500 12px "Pretendard Variable",Pretendard,-apple-system,sans-serif;
+    letter-spacing:.04em;color:rgba(255,255,255,.55);pointer-events:none;white-space:nowrap;transition:opacity .6s}
+  body.capture .hint{display:none}
+</style>
+<script src="../assets/vendor/p5.min.js"></script>
+<script src="furry/logos.js"></script>
+</head>
+<body>
+<div class="hint">Move to touch the fur · Click to switch brand</div>
+<script>
+/*
+Furry Brands — sac studio (2023)
+Ported from the original OpenProcessing sketch, which builds on
+"Interactive logos" by Jason Labbe (jasonlabbe3d.com / twitter.com/russetPotato).
+Logo images are sampled into thin rotating triangles that read as fur; the cursor parts it.
+URL options: ?brand=0..4  ?capture (hide hint, no cursor)
+*/
+const SPIN_MULTIPLIER = 65;
+const MIN_PARTICLE_COUNT = 200, MAX_PARTICLE_COUNT = 700;
+const MIN_PARTICLE_SIZE = 14, MAX_PARTICLE_SIZE = 28;
+const MIN_FORCE = 1, MAX_FORCE = 1;
+const REPULSION_RADIUS = 200, REPULSION_STRENGTH = 0.0036;
+const IMG_SCAN_STEPS = 1;
+
+const params = new URLSearchParams(location.search);
+const imgNames = window.FURRY_LOGOS; // fox, bape, playboy, puma, maison (see furry/logos.js)
+let particles = [], indices = [], imgIndex = +(params.get('brand')||0) % imgNames.length;
+let particleCount = 2500, maxSize = 0, img, S = 1; // S: scale of the 900px design space to the canvas
+
+function setup(){
+  const c = createCanvas(windowWidth, windowHeight);
+  c.canvas.oncontextmenu = () => false;
+  if (params.has('capture')) { document.body.classList.add('capture'); noCursor(); } else cursor('pointer');
+  loadImg(imgNames[imgIndex]);
+}
+function windowResized(){ resizeCanvas(windowWidth, windowHeight); }
+
+function draw(){
+  background(0);
+  if (!img) return;
+  S = min(width / 1700, height / 1000);           // keep the logo proportion stable at any size
+  push();
+  translate(width/2, height/2); scale(S); translate(-img.width/2, -img.height/2);
+  noStroke();
+  for (const p of particles){
+    p.move();
+    push();
+    translate(p.pos.x, p.pos.y);
+    rotate(radians(p.mapped_angle + p.vel.mag() * SPIN_MULTIPLIER));
+    fill(p.color);
+    triangle(p.size*-0.2, p.size*-1, 0, p.size, p.size*0.01, p.size*1.7);
+    pop();
+  }
+  pop();
+}
+function mousePressed(){ if (mouseButton === LEFT) loadNextImg(); }
+
+function Particle(x, y, size, col){
+  this.pos = createVector(img.width/2, img.height/2);
+  this.vel = createVector(0,0); this.acc = createVector(0,0);
+  this.target = createVector(x, y); this.size = size; this.color = col;
+  this.mapped_angle = map(x,0,img.width,-180,180) + map(y,0,img.height,-180,180);
+  this.maxForce = random(MIN_FORCE, MAX_FORCE);
+  this.goToTarget = function(){
+    const d = dist(this.pos.x,this.pos.y,this.target.x,this.target.y);
+    if (d > 0.5){ const steer = p5.Vector.sub(this.target,this.pos).normalize(); steer.mult(map(min(d,150),0,150,0,this.maxForce)); this.acc.add(steer); }
+  };
+  this.avoidMouse = function(){
+    const mx = (mouseX - width/2)/S + img.width/2, my = (mouseY - height/2)/S + img.height/2;
+    const md = dist(this.pos.x,this.pos.y,mx,my);
+    if (md < REPULSION_RADIUS){ const r = createVector(this.pos.x-mx, this.pos.y-my); r.mult(map(md,REPULSION_RADIUS,0,0,REPULSION_STRENGTH)); this.acc.add(r); }
+  };
+  this.move = function(){ this.goToTarget(); this.avoidMouse(); this.vel.mult(0.95); this.vel.add(this.acc); this.pos.add(this.vel); this.acc.mult(0); };
+}
+
+function loadNextImg(){ imgIndex = (imgIndex+1) % imgNames.length; loadImg(imgNames[imgIndex]); }
+function loadImg(name){
+  loadImage(name, im => { img = im;
+    const k = Math.min(900 / im.width, 620 / im.height); // fit wide and tall logos to the same visual weight
+    img.resize(Math.round(im.width * k), Math.round(im.height * k)); img.loadPixels(); spawnParticles(); });
+}
+function setupImg(){
+  indices = [];
+  for (let x=0; x<img.width; x+=IMG_SCAN_STEPS*4) for (let y=0; y<img.height; y+=IMG_SCAN_STEPS*4){
+    const i = (x + y*img.width)*4; if (img.pixels[i+3] > 10) indices.push(i);
+  }
+}
+function spawnParticles(){
+  particles = []; setupImg();
+  maxSize = map(particleCount, MIN_PARTICLE_COUNT, MAX_PARTICLE_COUNT, MAX_PARTICLE_SIZE, MIN_PARTICLE_SIZE);
+  if (!indices.length) return;
+  for (let n=0; n<particleCount; n++){
+    let made = null, attempts = 0;
+    while (!made){
+      const index = indices[int(random(indices.length))];
+      const x = (index/4) % img.width, y = (index/4) / img.width;
+      const col = color(img.pixels[index], img.pixels[index+1], img.pixels[index+2], img.pixels[index+3]);
+      if (particles.length){
+        let smallest = null;
+        for (const o of particles){ const s = (dist(x,y,o.target.x,o.target.y) - o.size/2)*2; if (smallest===null || s<smallest) smallest = s; }
+        if (smallest > 0) made = new Particle(x, y, min(smallest, maxSize)*0.75, col);
+      } else made = new Particle(x, y, maxSize, col);
+      if (++attempts > 20) break;
+    }
+    if (made) particles.push(made);
+  }
+}
+</script>
+<script>
+/* When embedded in a case page, hand pointer moves to the parent so the site's symbol cursor keeps following */
+(function(){
+  if(window.parent===window||!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const st=document.createElement('style'); st.textContent='html,body,canvas,*{cursor:none!important}'; document.head.appendChild(st);
+  const send=m=>{ try{ parent.postMessage(m,'*'); }catch(e){} };
+  addEventListener('pointermove',e=>{ if(e.pointerType==='mouse') send({symCursor:'move',x:e.clientX,y:e.clientY}); },{passive:true});
+  document.addEventListener('mouseleave',()=>send({symCursor:'leave'}));
+})();
+</script>
+</body>
+</html>
