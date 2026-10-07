@@ -263,5 +263,7 @@ html,body{overflow-x:clip} /* hover labels / zoomed thumbs must never cause side
   .grid:not(.as-list){gap:22px 12px}
   /* big "Brand / Animator" on two lines */
   .big-role{line-height:.84;margin-top:22px}
+  /* interactive sketch hero: much taller on phones */
+  .pj-hero.is-x{aspect-ratio:auto!important;height:78svh}
 }
 .meta .ty{display:none}

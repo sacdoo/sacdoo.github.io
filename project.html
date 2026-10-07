@@ -65,7 +65,7 @@ function media(m, cls){
   return el;
 }
 let html='';
-if(p.hero){ html+=`<div class="pj-hero${p.hero[4]==='contain'?' contain':''}" data-mirror="box" style="aspect-ratio:${p.hero[3]}">${media(p.hero)}${p.heroSound?'<button type="button" class="pj-sound" aria-pressed="false">Sound on</button>':''}</div>`; }
+if(p.hero){ html+=`<div class="pj-hero${p.hero[4]==='contain'?' contain':''}${p.hero[0]==='x'?' is-x':''}" data-mirror="box" style="aspect-ratio:${p.hero[3]}">${media(p.hero)}${p.heroSound?'<button type="button" class="pj-sound" aria-pressed="false">Sound on</button>':''}</div>`; }
 html+=`<div class="wrap">
   <header class="pj-head"><h1><span data-mirror="text">${esc(p.title.split('\n')[0])}</span>${p.title.includes('\n')?'\n'+esc(p.title.split('\n').slice(1).join(' ')):''}</h1>
     ${(p.awards&&p.awards.length)?`<div class="pj-awards" aria-label="Awards">${p.awards.map(w=>w.img?`<img src="${w.img}" alt="${esc(w.name)}" title="${esc(w.name)}">`:`<span class="pj-award-txt" title="${esc(w.name+(w.grade?' — '+w.grade:''))}"><b>${esc(w.name)}</b>${w.grade?`<small>${esc(w.grade)}</small>`:''}</span>`).join('')}</div>`:''}
@@ -107,6 +107,11 @@ html+=`<dl class="pj-credits">
   </div>
 </div>`;
 document.getElementById('project').innerHTML=html;
+// scroll handed up from the interactive sketch (touch swipe inside the iframe)
+let flingRaf=0;
+addEventListener('message',e=>{ const d=e.data; if(!d||!d.furryScroll) return; cancelAnimationFrame(flingRaf);
+  if(d.furryScroll==='by') scrollBy(0,d.dy);
+  else if(d.furryScroll==='fling'){ let v=d.v; const step=()=>{ if(Math.abs(v)<.5) return; scrollBy(0,v); v*=.94; flingRaf=requestAnimationFrame(step); }; step(); } });
 const snd=document.querySelector('.pj-sound');
 if(snd){ const hv=snd.parentNode.querySelector('video'); snd.onclick=()=>{ hv.muted=!hv.muted; if(!hv.muted){ hv.currentTime=0; hv.play().catch(()=>{}); } snd.setAttribute('aria-pressed',String(!hv.muted)); snd.textContent=hv.muted?'Sound on':'Sound off'; }; }
 })();

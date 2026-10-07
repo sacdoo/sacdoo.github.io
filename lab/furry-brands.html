@@ -16,6 +16,7 @@
 </head>
 <body>
 <div class="hint">Move to touch the fur · Click to switch brand</div>
+<script>if(!matchMedia('(hover: hover)').matches) document.querySelector('.hint').textContent='Drag to touch the fur · Tap to switch brand';</script>
 <script>
 /*
 Furry Brands — sac studio (2023)
@@ -47,7 +48,7 @@ function windowResized(){ resizeCanvas(windowWidth, windowHeight); }
 function draw(){
   background(0);
   if (!img) return;
-  S = min(width / 1700, height / 1000);           // keep the logo proportion stable at any size
+  S = width < height ? min(width / 1000, height / 1000) : min(width / 1700, height / 1000); // portrait (phones): logo fills the width
   push();
   translate(width/2, height/2); scale(S); translate(-img.width/2, -img.height/2);
   noStroke();
@@ -63,6 +64,12 @@ function draw(){
   pop();
 }
 function mousePressed(){ if (mouseButton === LEFT) loadNextImg(); }
+// pointer the fur reacts to (mouse position, or the finger while touching; parked far away otherwise)
+let PX = -1e4, PY = -1e4;
+function mouseMoved(){ PX = mouseX; PY = mouseY; }
+function mouseDragged(){ PX = mouseX; PY = mouseY; }
+// touches are handled natively below — these stop p5 from turning every touch into a click
+function touchStarted(){} function touchMoved(){} function touchEnded(){}
 
 function Particle(x, y, size, col){
   this.pos = createVector(img.width/2, img.height/2);
@@ -75,7 +82,7 @@ function Particle(x, y, size, col){
     if (d > 0.5){ const steer = p5.Vector.sub(this.target,this.pos).normalize(); steer.mult(map(min(d,150),0,150,0,this.maxForce)); this.acc.add(steer); }
   };
   this.avoidMouse = function(){
-    const mx = (mouseX - width/2)/S + img.width/2, my = (mouseY - height/2)/S + img.height/2;
+    const mx = (PX - width/2)/S + img.width/2, my = (PY - height/2)/S + img.height/2;
     const md = dist(this.pos.x,this.pos.y,mx,my);
     if (md < REPULSION_RADIUS){ const r = createVector(this.pos.x-mx, this.pos.y-my); r.mult(map(md,REPULSION_RADIUS,0,0,REPULSION_STRENGTH)); this.acc.add(r); }
   };
@@ -114,6 +121,29 @@ function spawnParticles(){
     if (made) particles.push(made);
   }
 }
+</script>
+<script>
+/* Touch: small finger moves play with the fur; only a clear vertical swipe scrolls the page
+   (handed to the parent case page). A quick tap switches to the next brand. */
+(function(){
+  const st=document.createElement('style'); st.textContent='html,body,canvas{touch-action:none;overscroll-behavior:none}'; document.head.appendChild(st);
+  const send=m=>{ try{ if(window.parent!==window) parent.postMessage(m,'*'); }catch(e){} };
+  const SWIPE=60;                       // px of mostly-vertical travel before it counts as a scroll
+  let t0=null, mode=null, lastY=0, lastT=0, vel=0;
+  addEventListener('touchstart',e=>{ const t=e.touches[0]; t0={x:t.clientX,y:t.clientY,time:performance.now()}; mode=null; lastY=t.clientY; lastT=t0.time; vel=0; PX=t.clientX; PY=t.clientY; send({furryScroll:'stop'}); },{passive:true});
+  addEventListener('touchmove',e=>{
+    if(!t0) return; const t=e.touches[0], now=performance.now(), dx=t.clientX-t0.x, dy=t.clientY-t0.y;
+    if(mode!=='scroll'){ if(Math.abs(dy)>SWIPE&&Math.abs(dy)>Math.abs(dx)*1.4){ mode='scroll'; lastY=t0.y+Math.sign(dy)*SWIPE*.5; } else if(Math.hypot(dx,dy)>10) mode='play'; }
+    if(mode==='scroll'){ const d=t.clientY-lastY; send({furryScroll:'by',dy:-d}); vel=-d/Math.max(1,now-lastT)*16; PX=PY=-1e4; }
+    else { PX=t.clientX; PY=t.clientY; }
+    lastY=t.clientY; lastT=now;
+  },{passive:true});
+  const end=()=>{ if(!t0) return;
+    if(mode==='scroll') send({furryScroll:'fling',v:vel});
+    else if(!mode&&performance.now()-t0.time<350) loadNextImg();
+    t0=null; mode=null; PX=PY=-1e4; };
+  addEventListener('touchend',end,{passive:true}); addEventListener('touchcancel',end,{passive:true});
+})();
 </script>
 <script>
 /* When embedded in a case page, hand pointer moves to the parent so the site's symbol cursor keeps following */
