@@ -250,8 +250,8 @@ html,body{overflow-x:clip} /* hover labels / zoomed thumbs must never cause side
 
 /* ---------- Mobile layout (≤720px) ---------- */
 @media (max-width:720px){
-  /* reel keeps its 16:9 frame under a dark strip for the menu bar (no side crop) */
-  .hero{height:auto;aspect-ratio:auto;border-top:72px solid var(--night)}
+  /* reel keeps its 16:9 frame (no side crop), flush to the top so the glass menu bar sits over the video */
+  .hero{height:auto;aspect-ratio:auto}
   .hero::before{content:"";display:block;aspect-ratio:426/240}
   /* thumbnails show their name + type underneath (there is no hover on phones) */
   .grid:not(.as-list) .card .meta{display:flex;flex-direction:row;align-items:baseline;justify-content:space-between;gap:10px;margin-top:-4px}
