@@ -129,7 +129,7 @@ function drawReel(t){
 const REEL={vimeo:'1149622442', vimeoRatio:426/240, wide:'assets/media/reel.mp4', narrow:''}; // e.g. wide:'assets/media/reel.mp4'
 const vimeo=document.getElementById('reelVimeo');
 let useVimeo=false;
-function fitVimeo(){ if(!useVimeo) return; const h=vimeo.parentElement.getBoundingClientRect(), R=REEL.vimeoRatio; let w=h.width, ht=w/R; if(ht<h.height){ ht=h.height; w=ht*R; } Object.assign(vimeo.style,{width:w+'px',height:ht+'px',left:(h.width-w)/2+'px',top:(h.height-ht)/2+'px'}); }
+function fitVimeo(){ if(!useVimeo) return; const pe=vimeo.parentElement, h={width:pe.clientWidth,height:pe.clientHeight}, /* padding box (mobile adds a top border strip) */ R=REEL.vimeoRatio; let w=h.width, ht=w/R; if(ht<h.height){ ht=h.height; w=ht*R; } Object.assign(vimeo.style,{width:w+'px',height:ht+'px',left:(h.width-w)/2+'px',top:(h.height-ht)/2+'px'}); }
 addEventListener('resize',fitVimeo);
 const video=document.getElementById('reelVideo'), scrim=null;
 const narrowMQ=matchMedia('(max-width: 700px)');
@@ -180,7 +180,7 @@ const thumbHTML=p=>{
 PROJECTS.forEach(p=>{
   const a=document.createElement('a'); a.className='card'; a.setAttribute('aria-label',p.title.replace(/\n/g,' ')); a.href=`project.html?p=${encodeURIComponent(p.slug)}`;
   a.innerHTML=`<div class="tilt"><div class="tilt-inner">${thumbHTML(p)}</div><span class="tilt-cap" aria-hidden="true">${esc(p.label||p.title.replace(/\n/g,' '))}${p.type?`<small>${esc(p.type)}</small>`:''}</span></div>
-    <div class="meta"><span class="t" data-mirror="text"><b>${esc(p.label||p.title.replace(/\n/g,' '))}</b></span><span class="r" data-mirror="text">${esc(p.contrib||myRole(p))} · ${p.year}</span></div>`;
+    <div class="meta"><span class="t" data-mirror="text"><b>${esc(p.label||p.title.replace(/\n/g,' '))}</b></span><span class="r" data-mirror="text">${esc(p.contrib||myRole(p))} · ${p.year}</span>${p.type?`<span class="ty">${esc(p.type)}</span>`:''}</div>`;
   grid.appendChild(a);
   tilt(a.querySelector('.tilt'));
   const v=a.querySelector('video.thumb');
