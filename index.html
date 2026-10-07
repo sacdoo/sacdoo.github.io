@@ -167,8 +167,12 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 document.getElementById('count').textContent=`(${String(PROJECTS.length).padStart(2,'0')})`;
 // still frame (seconds) shown while not hovered — the moment each logo animation is complete
 const POSTER_T={D7FrS2pCx3tkhGFpvC2UyA92Do:3.8,GDX0MY4Gw3PF1p2WWPE87ubZw:4.0,IvrkBB9Xs7xpVPMlWqHKiUvqw:0,KOr16F4rDiDTpmL7kXOdEoJ0h90:3.9,knr445NYIhuuhWYipWCBBtvCzE:2.5};
+const TOUCH=!matchMedia('(hover: hover) and (pointer: fine)').matches; // phones/tablets: no hover-to-play, show the still frame as an image
+const stillImg=(src,p,zoom)=>`<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${src}"${zoom?` style="transform:scale(${zoom})"`:''}>`;
 const thumbHTML=p=>{
   const base=p.thumb[1].split('?')[0], stem=base.replace(/\.[a-z0-9]+$/i,'');
+  if(TOUCH&&p.thumb[0]==='lv') return stillImg(LOCAL+p.thumb[1].replace(/\.mp4$/,'')+'.thumb.jpg',p,p.thumb[3]);
+  if(TOUCH&&!['L','b'].includes(p.thumb[0])&&/\.(gif|webp)$/i.test(base)) return stillImg(LOCAL+stem+'.thumb.jpg',p);
   if(p.thumb[0]==='lv'){ const f=p.thumb[1], st=f.replace(/\.mp4$/,''); // local logo-animation clip, still on its finished frame
     return `<video class="thumb" data-mirror="media" ${CO} muted loop playsinline preload="auto" poster="${LOCAL+st}.thumb.jpg" src="${LOCAL+f}" data-t="${p.thumb[2]||0}"${p.thumb[4]?' data-still-zoom':''}${p.thumb[3]?` style="transform:scale(${p.thumb[3]})${p.thumb[3]<1?';box-shadow:0 0 0 100vmax #0d0d0d':''}"`:''} aria-label="${esc(p.title)}"></video>`; }
   if(p.thumb[0]==='L') return `<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${LOCAL+p.thumb[1]}">`;
