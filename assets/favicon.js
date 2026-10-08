@@ -21,5 +21,12 @@
     const s=new XMLSerializer().serializeToString(c);
     img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
   }
-  setInterval(tick,83);
+  // Chrome/macOS resets the (hidden) mouse pointer every time the tab icon changes, which made the system
+  // arrow flash over the custom cursor. So the icon only animates while the mouse is NOT over the page
+  // (tab in the background, or pointer outside the window); over the page it holds its current frame.
+  let over=false;
+  document.addEventListener('mouseover',()=>{ over=true; },{passive:true});
+  document.addEventListener('mouseleave',()=>{ over=false; });
+  addEventListener('blur',()=>{ over=false; });
+  setInterval(()=>{ if(!over||document.hidden) tick(); },83);
 })();

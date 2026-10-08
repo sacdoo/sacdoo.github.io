@@ -49,10 +49,6 @@
   // over a project thumbnail / row: cursor grows a little and a "Click!" label pops up in its centre
   const setHot=v=>{ if(v===hot) return; hot=v; el.classList.toggle('hot',v); if(!raf) raf=requestAnimationFrame(loop); };
   document.addEventListener('pointerover',e=>{ const t=e.target.closest?e.target:null; setHot(!!(t&&t.closest('a.card'))); el.classList.toggle('diff',!!(t&&t.closest('.big-role'))); },{passive:true});
-  // Chrome on macOS can bring the system arrow back while the mouse rests (e.g. when things animate under it).
-  // While idle, flip between two equivalent transparent cursors so the browser keeps re-applying "hidden".
-  let lastMove=performance.now(); addEventListener('pointermove',()=>{ lastMove=performance.now(); },{passive:true});
-  setInterval(()=>{ if(performance.now()-lastMove>250) document.documentElement.classList.toggle('cur-b'); },300);
   document.addEventListener('mouseleave',()=>{ el.classList.remove('on'); anim.pause(); });
   document.addEventListener('mouseenter',()=>{ el.classList.add('on'); anim.play(); });
   addEventListener('blur',()=>{ el.classList.remove('on'); anim.pause(); });
