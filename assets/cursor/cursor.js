@@ -2,6 +2,18 @@
    Size reacts to pointer speed — fast = bigger, slow/still = smaller. */
 (function(){
   if(!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  // ?dbg=none|novideo|noglass|nolottie — isolate what makes macOS show the arrow under a resting mouse
+  const DBG=new URLSearchParams(location.search).get('dbg');
+  if(DBG){
+    const H=document.documentElement, tag=document.createElement('div');
+    tag.textContent='dbg: '+DBG; tag.style.cssText='position:fixed;left:8px;bottom:8px;z-index:99;font:12px monospace;background:#000;color:#0f0;padding:4px 6px;pointer-events:none';
+    document.body.appendChild(tag);
+    const st=document.createElement('style'); document.head.appendChild(st);
+    if(DBG==='none') st.textContent='html.has-sym-cursor,html.has-sym-cursor *,html.has-sym-cursor *::before,html.has-sym-cursor *::after{cursor:none!important}';
+    if(DBG==='noglass') st.textContent='.bar{display:none!important}';
+    if(DBG==='novideo'){ st.textContent='video,iframe{display:none!important}'; const kill=()=>document.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load();}); kill(); setInterval(kill,1000); }
+    if(DBG==='nolottie'){ H.classList.add('has-sym-cursor'); return; }
+  }
   if(!window.lottie||!window.SAC_SYMBOL) return;
   const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const el=document.createElement('div'); el.className='sym-cursor'; el.setAttribute('aria-hidden','true');
@@ -37,10 +49,6 @@
     if(d.symCursor==='leave'){ return; }
     const r=f.getBoundingClientRect(); if(hot) setHot(false); moveTo(r.left+d.x, r.top+d.y);
   });
-  // Chrome/macOS shows the system arrow again when something keeps repainting under a resting pointer,
-  // so the symbol animates only while the mouse moves and freezes on its current frame when it rests.
-  let idleT=0;
-  addEventListener('pointermove',e=>{ if(e.pointerType!=='mouse') return; clearTimeout(idleT); if(el.classList.contains('on')) anim.play(); idleT=setTimeout(()=>anim.pause(),160); },{passive:true});
   addEventListener('pointermove',e=>{
     if(e.pointerType!=='mouse') return;
     const now=performance.now(), dt=Math.max(8,now-lt);
