@@ -25,6 +25,10 @@
   <canvas id="reel" data-mirror="media" aria-label="Showreel loop (placeholder animation)"></canvas>
   <iframe id="reelVimeo" data-mirror="media" title="Showreel" allow="autoplay; fullscreen; picture-in-picture" tabindex="-1" hidden></iframe>
   <video id="reelVideo" data-mirror="media" muted loop playsinline autoplay preload="auto" crossorigin="anonymous" hidden></video>
+  <a class="scroll-cue" href="#work" aria-label="Scroll to work">
+    <span>Scroll</span>
+    <svg viewBox="0 0 16 24" aria-hidden="true"><path d="M8 2v18M2 14l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
 </header>
 
 
@@ -296,6 +300,9 @@ addEventListener('pageshow',e=>{ if(e.persisted) fade.classList.remove('on'); })
 <script src="assets/vendor/lottie_light.min.js"></script>
 <script src="assets/cursor/sac-symbol.js"></script>
 <script src="assets/favicon.js"></script>
+<script>/* landing "Scroll" cue fades out once you start scrolling */
+(function(){ const c=document.querySelector('.scroll-cue'); if(!c) return;
+  const f=()=>c.classList.toggle('gone',scrollY>innerHeight*.12); addEventListener('scroll',f,{passive:true}); f(); })();</script>
 <script src="assets/menu.js"></script>
 <script src="assets/video-tap.js"></script>
 <script src="assets/cursor/cursor.js"></script>
