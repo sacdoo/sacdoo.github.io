@@ -153,7 +153,7 @@ a{color:inherit}
 .grid.as-list .tilt{display:none}
 /* touch: the label pops up on the card crossing the screen centre (see center-cap.js) */
 @media (hover:none){
-  .grid:not(.as-list) .card .tilt-cap{left:12px;top:auto;bottom:12px;margin:0;transform-origin:0 100%;transform:scale(.4);font-size:16px;padding:7px 13px}
+  .grid:not(.as-list) .card .tilt-cap{left:14px;top:auto;bottom:14px;margin:0;transform-origin:0 100%;transform:scale(.4);font-size:16px;padding:7px 13px}
   .grid:not(.as-list) .card .tilt-cap small{font-size:12px}
   .grid.as-list .card .tilt-cap{display:none}
 }
