@@ -153,9 +153,9 @@ a{color:inherit}
 .grid.as-list .tilt{display:none}
 /* touch: the label pops up on the card crossing the screen centre (see center-cap.js) */
 @media (hover:none){
-  .grid:not(.as-list) .card .tilt-cap{left:14px;top:auto;bottom:14px;margin:0;transform:none;transform-origin:0 100%;scale:.4;opacity:0;font-size:16px;padding:7px 13px;
-    will-change:scale,opacity,rotate;transition:scale .28s cubic-bezier(.4,0,1,1),opacity .2s ease}
-  .grid:not(.as-list) .card.cap-on .tilt-cap{scale:1;opacity:1;transition:scale .55s cubic-bezier(.34,1.56,.64,1),opacity .18s ease}
+  .grid:not(.as-list) .card .tilt-cap{left:14px;top:auto;bottom:14px;margin:0;transform:none;transform-origin:0 100%;scale:.6;opacity:0;font-size:16px;padding:7px 13px;
+    will-change:scale,opacity,rotate;transition:scale .6s cubic-bezier(.33,0,.2,1),opacity .55s cubic-bezier(.33,0,.2,1)}   /* leaving: slow, soft shrink + fade */
+  .grid:not(.as-list) .card.cap-on .tilt-cap{scale:1;opacity:1;transition:scale .75s cubic-bezier(.3,1.35,.5,1),opacity .4s ease}   /* arriving: gentle spring; overlaps the old one leaving */
   .grid:not(.as-list) .card .tilt-cap small{font-size:12px}
   .grid.as-list .card .tilt-cap{display:none}
 }
