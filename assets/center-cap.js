@@ -20,18 +20,31 @@
     if(!best&&active&&vis.has(active)) return active;          // nothing new in the middle → keep the current label up
     return best;
   }
-  // the card with the label up plays its clip (video thumbnails only); it fades back to the still when the label moves on
+  // the card with the label up plays its clip (video thumbnails only).
+  // iOS (esp. Low Power Mode) only lets a <video> play after it has been started once inside a touch gesture,
+  // so we keep a pool of two players, "unlock" both on the first touch, then move them between cards.
+  const pool=[0,1].map(()=>{ const v=document.createElement('video'); v.className='thumb-live'; v.muted=true; v.defaultMuted=true; v.loop=true;
+    v.playsInline=true; v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.preload='auto'; v.owner=null; return v; });
+  let flip=0;
+  const unlock=()=>{ pool.forEach(v=>{ if(!v.src){ const any=grid.querySelector('img.thumb[data-vsrc]'); if(any) v.src=any.dataset.vsrc; }
+      const pr=v.play(); if(pr) pr.then(()=>{ if(!v.owner) v.pause(); }).catch(()=>{}); });
+    if(active) play(active,true); };
+  ['touchstart','touchend','click'].forEach(ev=>document.addEventListener(ev,unlock,{once:true,passive:true,capture:true}));
   function play(c,on){
     const img=c.querySelector('img.thumb[data-vsrc]'); if(!img) return;
-    let v=c.querySelector('video.thumb-live');
     if(on){
-      if(!v){ v=document.createElement('video'); v.className='thumb-live'; v.muted=true; v.defaultMuted=true; v.loop=true; v.playsInline=true;
-        v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.preload='auto'; v.src=img.dataset.vsrc;
-        if(img.dataset.vzoom) v.style.transform=`scale(${img.dataset.vzoom})`;
-        v.addEventListener('playing',()=>{ if(v.dataset.want==='1') v.classList.add('on'); });
-        img.parentNode.appendChild(v); }
-      v.dataset.want='1'; try{ v.currentTime=0; }catch(e){} v.play().then(()=>v.classList.add('on')).catch(()=>{});
-    } else if(v){ v.dataset.want='0'; v.classList.remove('on'); setTimeout(()=>{ if(v.dataset.want==='0') v.pause(); },500); }
+      let v=pool.find(x=>x.owner===c); if(!v){ v=pool[flip]; flip^=1; if(v.owner&&v.owner!==c) v.classList.remove('on'); }
+      v.owner=c; v.classList.remove('on');
+      if(v.parentNode!==img.parentNode) img.parentNode.appendChild(v);
+      v.style.transform=img.dataset.vzoom?`scale(${img.dataset.vzoom})`:'';
+      if(!v.src.endsWith(img.dataset.vsrc.replace(/^.*\//,''))) v.src=img.dataset.vsrc;
+      try{ v.currentTime=0; }catch(e){}
+      const go=()=>v.play().then(()=>{ if(v.owner===c) v.classList.add('on'); }).catch(()=>{});
+      v.readyState>=2?go():v.addEventListener('loadeddata',go,{once:true}); go();
+    } else {
+      const v=pool.find(x=>x.owner===c); if(!v) return;
+      v.owner=null; v.classList.remove('on'); setTimeout(()=>{ if(!v.owner) v.pause(); },500);
+    }
   }
   function setActive(c){
     if(c===active) return;
