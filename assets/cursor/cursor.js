@@ -37,6 +37,10 @@
     if(d.symCursor==='leave'){ return; }
     const r=f.getBoundingClientRect(); if(hot) setHot(false); moveTo(r.left+d.x, r.top+d.y);
   });
+  // Chrome/macOS shows the system arrow again when something keeps repainting under a resting pointer,
+  // so the symbol animates only while the mouse moves and freezes on its current frame when it rests.
+  let idleT=0;
+  addEventListener('pointermove',e=>{ if(e.pointerType!=='mouse') return; clearTimeout(idleT); if(el.classList.contains('on')) anim.play(); idleT=setTimeout(()=>anim.pause(),160); },{passive:true});
   addEventListener('pointermove',e=>{
     if(e.pointerType!=='mouse') return;
     const now=performance.now(), dt=Math.max(8,now-lt);
