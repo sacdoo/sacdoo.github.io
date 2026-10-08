@@ -39,8 +39,9 @@
   });
   // Chrome/macOS shows the system arrow again when something keeps repainting under a resting pointer,
   // so the symbol animates only while the mouse moves and freezes on its current frame when it rests.
-  let idleT=0;
-  addEventListener('pointermove',e=>{ if(e.pointerType!=='mouse') return; clearTimeout(idleT); if(el.classList.contains('on')) anim.play(); idleT=setTimeout(()=>anim.pause(),160); },{passive:true});
+  let idleT=0, kickT=0; const H=document.documentElement;
+  const kick=()=>{ H.classList.toggle('cur-b'); };   // re-assert the hidden cursor to the OS while resting
+  addEventListener('pointermove',e=>{ if(e.pointerType!=='mouse') return; clearTimeout(idleT); if(el.classList.contains('on')) anim.play(); clearInterval(kickT); idleT=setTimeout(()=>{ anim.pause(); kickT=setInterval(kick,250); },160); },{passive:true});
   addEventListener('pointermove',e=>{
     if(e.pointerType!=='mouse') return;
     const now=performance.now(), dt=Math.max(8,now-lt);
@@ -53,7 +54,7 @@
   // over a project thumbnail / row: cursor grows a little and a "Click!" label pops up in its centre
   const setHot=v=>{ if(v===hot) return; hot=v; el.classList.toggle('hot',v); if(!raf) raf=requestAnimationFrame(loop); };
   document.addEventListener('pointerover',e=>{ const t=e.target.closest?e.target:null; setHot(!!(t&&t.closest('a.card'))); el.classList.toggle('diff',!!(t&&t.closest('.big-role'))); },{passive:true});
-  document.addEventListener('mouseleave',()=>{ el.classList.remove('on'); anim.pause(); });
+  document.addEventListener('mouseleave',()=>{ clearInterval(kickT); el.classList.remove('on'); anim.pause(); });
   document.addEventListener('mouseenter',()=>{ el.classList.add('on'); anim.play(); });
-  addEventListener('blur',()=>{ el.classList.remove('on'); anim.pause(); });
+  addEventListener('blur',()=>{ clearInterval(kickT); el.classList.remove('on'); anim.pause(); });
 })();

@@ -227,6 +227,10 @@ body[data-seamless] .pj-media .box > img{position:static;height:auto}
 /* Site-wide cursor: the sac symbol (Lottie, exported from AE) follows the pointer; it grows with pointer speed */
 /* system pointer hidden: a fully transparent 1px cursor image first (some Chrome/macOS builds ignore plain 'none'), then 'none' */
 @media (hover:hover) and (pointer:fine){ html.has-sym-cursor, html.has-sym-cursor *, html.has-sym-cursor *::before, html.has-sym-cursor *::after{cursor:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=) 0 0,none!important} }
+/* macOS can silently reset the arrow under a resting pointer (video/WebGL layers repainting); cursor.js flips html.cur-b while idle so Chrome re-applies an (equally invisible) cursor to the OS */
+@media (hover:hover) and (pointer:fine){ html.has-sym-cursor.cur-b, html.has-sym-cursor.cur-b *, html.has-sym-cursor.cur-b *::before, html.has-sym-cursor.cur-b *::after{cursor:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAC0lEQVR4nGNgQAcAABIAAXfx+gAAAAAASUVORK5CYII=) 1 1,none!important}
+  /* videos / embedded players never take the pointer on desktop: hit-testing falls to the card/section, whose cursor is hidden */
+  html.has-sym-cursor video, html.has-sym-cursor iframe:not([src*="lab/"]){pointer-events:none} }
 .sym-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;width:0;height:0;will-change:transform}
 .sym-cursor > span{position:absolute;left:-55px;top:-55px;width:110px;height:110px;display:block;opacity:0;transition:opacity .25s ease} /* drawn at max size and only ever scaled DOWN, so the vector never gets upscaled from a small bitmap */
 .sym-cursor.on > span{opacity:1}
