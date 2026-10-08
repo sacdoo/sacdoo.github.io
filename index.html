@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SAC</title>
 <script>/* hide the system pointer from the very first paint on mouse devices (the green symbol cursor replaces it) */if(matchMedia("(hover: hover) and (pointer: fine)").matches)document.documentElement.classList.add("has-sym-cursor")</script>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791452554" id="favicon">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791452775" id="favicon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.write('<link rel="stylesheet" href="assets/site.css?v='+Date.now()+'">')</script>
 </head>
@@ -96,7 +96,7 @@ function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+
 /* ---------------- Placeholder reel ---------------- */
 const reel = document.getElementById('reel'), rctx = reel.getContext('2d');
 const RS = Math.min(DPR,1.5), SCENE = 2.8;
-let reelT = 0, paused = reduce;
+let reelT = 0, paused = false;
 function drawReel(t){
   sizeCanvas(reel,RS);
   const W=reel.width/RS, H=reel.height/RS, ctx=rctx;
@@ -146,9 +146,18 @@ function pickReel(){
   useVideo=!!want; useVimeo=!useVideo&&!!REEL.vimeo;
   video.hidden=!useVideo; vimeo.hidden=!useVimeo; reel.hidden=useVideo||useVimeo;
   if(useVimeo&&!vimeo.src){ vimeo.src=`https://player.vimeo.com/video/${REEL.vimeo}?background=1&autoplay=1&loop=1&muted=1&autopause=0&title=0&byline=0&portrait=0&controls=0&dnt=1`; } fitVimeo();
-  if(useVideo && video.dataset.src!==want){ video.dataset.src=want; video.src=want; if(!paused) video.play().catch(()=>{}); }
+  if(useVideo && video.dataset.src!==want){
+    // iOS autoplay needs muted + inline set as properties before the source loads
+    video.muted=true; video.defaultMuted=true; video.setAttribute('muted',''); video.playsInline=true; video.setAttribute('playsinline','');
+    video.dataset.src=want; video.src=want; video.play().catch(()=>{});
+  }
 }
 narrowMQ.addEventListener('change',pickReel); pickReel();
+// if the browser refused autoplay (e.g. data saver), start on the first touch / scroll / when visible again
+const kickReel=()=>{ if(useVideo&&video.paused&&!document.querySelector('.vfull')) video.play().catch(()=>{}); };
+['touchstart','scroll','pointerdown'].forEach(ev=>addEventListener(ev,kickReel,{passive:true,once:true}));
+video.addEventListener('loadeddata',kickReel);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) kickReel(); });
 const tcEl=document.getElementById('tc'); // removed from UI; kept optional
 function updateTC(t){ if(!tcEl) return; const f=Math.floor(t*24), fr=f%24, s=Math.floor(f/24)%60, mi=Math.floor(f/1440)%60;
   const p=n=>String(n).padStart(2,'0'); tcEl.textContent=`TC 00:${p(mi)}:${p(s)}:${p(fr)} · 24fps`; }
@@ -297,17 +306,17 @@ addEventListener('pageshow',e=>{ if(e.persisted) fade.classList.remove('on'); })
 })();
 </script>
 <script>document.write('<script src="assets/glass.js?v='+Date.now()+'"><\/script>')</script>
-<script src="assets/vendor/lottie_light.min.js?v=1791452554"></script>
-<script src="assets/cursor/sac-symbol.js?v=1791452554"></script>
+<script src="assets/vendor/lottie_light.min.js?v=1791452775"></script>
+<script src="assets/cursor/sac-symbol.js?v=1791452775"></script>
 <script>/* landing "Scroll" cue fades out once you start scrolling */
 (function(){ const c=document.querySelector('.scroll-cue'); if(!c) return;
   const f=()=>c.classList.toggle('gone',scrollY>innerHeight*.12); addEventListener('scroll',f,{passive:true}); f(); })();</script>
-<script src="assets/menu.js?v=1791452554"></script>
-<script src="assets/video-tap.js?v=1791452554"></script>
-<script src="assets/touch-press.js?v=1791452554"></script>
-<script src="assets/rise.js?v=1791452554"></script>
-<script src="assets/center-cap.js?v=1791452554"></script>
-<script src="assets/cursor/cursor.js?v=1791452554"></script>
-<script src="assets/text-pressure.js?v=1791452554"></script>
+<script src="assets/menu.js?v=1791452775"></script>
+<script src="assets/video-tap.js?v=1791452775"></script>
+<script src="assets/touch-press.js?v=1791452775"></script>
+<script src="assets/rise.js?v=1791452775"></script>
+<script src="assets/center-cap.js?v=1791452775"></script>
+<script src="assets/cursor/cursor.js?v=1791452775"></script>
+<script src="assets/text-pressure.js?v=1791452775"></script>
 </body>
 </html>
