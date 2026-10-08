@@ -253,9 +253,6 @@ html,body{overflow-x:clip} /* hover labels / zoomed thumbs must never cause side
 
 /* ---------- Mobile layout (≤720px) ---------- */
 @media (max-width:720px){
-  /* reel keeps its 16:9 frame (no side crop), flush to the top so the glass menu bar sits over the video */
-  .hero{height:auto;aspect-ratio:auto}
-  .hero::before{content:"";display:block;aspect-ratio:426/240}
   /* thumbnails show their name + type underneath (there is no hover on phones) */
   .grid:not(.as-list) .card .meta{display:flex;flex-direction:row;align-items:baseline;justify-content:space-between;gap:10px;margin-top:-4px}
   .grid:not(.as-list) .card .meta .r{display:none}
@@ -310,7 +307,7 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 .scroll-cue svg{width:14px;height:22px;display:block;animation:cue-bob 1.8s cubic-bezier(.45,0,.55,1) infinite}
 @keyframes cue-bob{0%,100%{transform:translateY(-3px)}50%{transform:translateY(5px)}}
 .scroll-cue.gone{opacity:0;pointer-events:none;transform:translate(-50%,10px)}
-@media (max-width:720px),(hover:none){.scroll-cue{display:none}}
+@media (max-width:720px){.scroll-cue{bottom:calc(env(safe-area-inset-bottom,0px) + 76px)}}  /* phones: sit above the bottom menu bar */
 @media (prefers-reduced-motion:reduce){.scroll-cue svg{animation:none}}
 /* touch press feedback on thumbnails */
 @media (hover:none){
