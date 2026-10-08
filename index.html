@@ -132,7 +132,7 @@ function drawReel(t){
 }
 /* Real reel: set file paths here. 'narrow' is an optional vertical/cropped cut for phones. */
 /* Reel source priority: local mp4 (wide/narrow) > Vimeo id > placeholder canvas animation */
-const REEL={vimeo:'1149622442', vimeoRatio:426/240, wide:'assets/media/reel.mp4', narrow:''}; // e.g. wide:'assets/media/reel.mp4'
+const REEL={vimeo:'1149622442', vimeoRatio:426/240, wide:'assets/media/reel.mp4', narrow:'assets/media/reel-mobile.mp4'}; // phones: "run portfolio" → just before "thank you" // e.g. wide:'assets/media/reel.mp4'
 const vimeo=document.getElementById('reelVimeo');
 let useVimeo=false;
 function fitVimeo(){ if(!useVimeo) return; const pe=vimeo.parentElement, h={width:pe.clientWidth,height:pe.clientHeight}, /* padding box (mobile adds a top border strip) */ R=REEL.vimeoRatio; let w=h.width, ht=w/R; if(ht<h.height){ ht=h.height; w=ht*R; } Object.assign(vimeo.style,{width:w+'px',height:ht+'px',left:(h.width-w)/2+'px',top:(h.height-ht)/2+'px'}); }
