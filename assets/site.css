@@ -318,8 +318,9 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 }
 /* phones: thumbnails rise up from below the screen as they scroll into view */
 @media (hover:none){
-  .grid:not(.as-list) .card.rise{transform:translateY(90px);opacity:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .6s ease}
-  .grid:not(.as-list) .card.rise.in{transform:none;opacity:1}
+  .grid:not(.as-list) .card.rise{transform:perspective(1000px) translateY(90px) rotateX(-32deg);transform-origin:50% 0;opacity:0;
+    transition:transform 1.1s cubic-bezier(.16,1,.3,1),opacity .7s ease}   /* bottom edge swings up from behind as it rises */
+  .grid:not(.as-list) .card.rise.in{transform:perspective(1000px) translateY(0) rotateX(0);opacity:1}
 }
 @media (prefers-reduced-motion:reduce){.grid .card.rise{transform:none!important;opacity:1!important;transition:none!important}}
 /* phones: live clip layered over the still thumbnail while that card's label is up */
