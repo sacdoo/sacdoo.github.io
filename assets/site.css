@@ -312,3 +312,9 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 .scroll-cue.gone{opacity:0;pointer-events:none;transform:translate(-50%,10px)}
 @media (max-width:720px),(hover:none){.scroll-cue{display:none}}
 @media (prefers-reduced-motion:reduce){.scroll-cue svg{animation:none}}
+/* touch press feedback on thumbnails */
+@media (hover:none){
+  .grid .card .tilt-inner{transition:transform .45s cubic-bezier(.34,1.56,.64,1),filter .3s ease}
+  .grid .card.pressed .tilt-inner{transform:scale(.95);filter:brightness(.92);transition:transform .12s ease-out,filter .12s ease-out}
+  .grid .card{-webkit-tap-highlight-color:transparent}
+}
