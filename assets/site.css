@@ -151,7 +151,12 @@ a{color:inherit}
   margin:32px 0 0 32px;padding:8px 15px;border-radius:6px;background:#fff;color:#111318;font:500 18px var(--f-mono);transform-origin:0 0;
   box-shadow:0 6px 16px -6px rgba(0,0,0,.35)}
 .grid.as-list .tilt{display:none}
-@media (hover:none){.card .tilt-cap{display:none}}
+/* touch: the label pops up on the card crossing the screen centre (see center-cap.js) */
+@media (hover:none){
+  .grid:not(.as-list) .card .tilt-cap{left:50%;top:50%;margin:0;transform-origin:50% 50%;transform:translate(-50%,-50%) scale(.4);font-size:16px;padding:7px 13px}
+  .grid:not(.as-list) .card .tilt-cap small{font-size:12px}
+  .grid.as-list .card .tilt-cap{display:none}
+}
 
 /* ---------- White case pages + transition from the grid ---------- */
 body[data-page="project"]{--paper:#ffffff;--ink:#111318;--muted:#5b6170;--line:#e4e6eb;color-scheme:light;background:#fff;color:var(--ink)}
