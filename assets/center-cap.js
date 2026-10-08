@@ -31,7 +31,7 @@
     const dy=scrollY-lastY; lastY=scrollY; vel+=((dy/dt)-vel)*.25;
     setActive(choose());
     if(active&&!RM){
-      const t=Math.max(-4,Math.min(4,-vel*.005));
+      const t=Math.max(-4,Math.min(4,vel*.005));   // swings with the swipe direction
       rv+=(110*(t-rot)-11*rv)*dt; rot+=rv*dt;
       const cap=active.querySelector('.tilt-cap'); if(cap) cap.style.rotate=rot.toFixed(2)+'deg';
     }
