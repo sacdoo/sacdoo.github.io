@@ -322,3 +322,7 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
   .grid:not(.as-list) .card.rise.in{transform:none;opacity:1}
 }
 @media (prefers-reduced-motion:reduce){.grid .card.rise{transform:none!important;opacity:1!important;transition:none!important}}
+/* phones: live clip layered over the still thumbnail while that card's label is up */
+.card .tilt-inner{position:relative}
+.card video.thumb-live{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.card video.thumb-live.on{opacity:1}

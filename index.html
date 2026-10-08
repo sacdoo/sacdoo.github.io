@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SAC</title>
 <script>/* hide the system pointer from the very first paint on mouse devices (the green symbol cursor replaces it) */if(matchMedia("(hover: hover) and (pointer: fine)").matches)document.documentElement.classList.add("has-sym-cursor")</script>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791452775" id="favicon">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791453106" id="favicon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.write('<link rel="stylesheet" href="assets/site.css?v='+Date.now()+'">')</script>
 </head>
@@ -183,11 +183,11 @@ document.getElementById('count').textContent=`(${String(PROJECTS.length).padStar
 // still frame (seconds) shown while not hovered — the moment each logo animation is complete
 const POSTER_T={D7FrS2pCx3tkhGFpvC2UyA92Do:3.8,GDX0MY4Gw3PF1p2WWPE87ubZw:4.0,IvrkBB9Xs7xpVPMlWqHKiUvqw:0,KOr16F4rDiDTpmL7kXOdEoJ0h90:3.9,knr445NYIhuuhWYipWCBBtvCzE:2.5};
 const TOUCH=!matchMedia('(hover: hover) and (pointer: fine)').matches; // phones/tablets: no hover-to-play, show the still frame as an image
-const stillImg=(src,p,zoom)=>`<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${src}"${zoom?` style="transform:scale(${zoom})"`:''}>`;
+const stillImg=(src,p,zoom,vsrc,vzoom)=>`<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${src}"${zoom?` style="transform:scale(${zoom})"`:''}${vsrc?` data-vsrc="${vsrc}"`:''}${vzoom?` data-vzoom="${vzoom}"`:''}>`;   // data-vsrc: clip played when this card's label is up
 const thumbHTML=p=>{
   const base=p.thumb[1].split('?')[0], stem=base.replace(/\.[a-z0-9]+$/i,'');
-  if(TOUCH&&p.thumb[0]==='lv') return stillImg(LOCAL+p.thumb[1].replace(/\.mp4$/,'')+'.thumb.jpg',p,p.thumb[3]);
-  if(TOUCH&&!['L','b'].includes(p.thumb[0])&&/\.(gif|webp)$/i.test(base)) return stillImg(LOCAL+stem+'.thumb.jpg',p);
+  if(TOUCH&&p.thumb[0]==='lv') return stillImg(LOCAL+p.thumb[1].replace(/\.mp4$/,'')+'.thumb.jpg',p,p.thumb[3],LOCAL+p.thumb[1],p.thumb[4]?0:p.thumb[3]);
+  if(TOUCH&&!['L','b'].includes(p.thumb[0])&&/\.(gif|webp)$/i.test(base)) return stillImg(LOCAL+stem+'.thumb.jpg',p,0,LOCAL+stem+'.thumb.mp4');
   if(p.thumb[0]==='lv'){ const f=p.thumb[1], st=f.replace(/\.mp4$/,''); // local logo-animation clip, still on its finished frame
     return `<video class="thumb" data-mirror="media" ${CO} muted loop playsinline preload="auto" poster="${LOCAL+st}.thumb.jpg" src="${LOCAL+f}" data-t="${p.thumb[2]||0}"${p.thumb[4]?' data-still-zoom':''}${p.thumb[3]?` style="transform:scale(${p.thumb[3]})${p.thumb[3]<1?';box-shadow:0 0 0 100vmax #0d0d0d':''}"`:''} aria-label="${esc(p.title)}"></video>`; }
   if(p.thumb[0]==='L') return `<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${LOCAL+p.thumb[1]}">`;
@@ -306,17 +306,17 @@ addEventListener('pageshow',e=>{ if(e.persisted) fade.classList.remove('on'); })
 })();
 </script>
 <script>document.write('<script src="assets/glass.js?v='+Date.now()+'"><\/script>')</script>
-<script src="assets/vendor/lottie_light.min.js?v=1791452775"></script>
-<script src="assets/cursor/sac-symbol.js?v=1791452775"></script>
+<script src="assets/vendor/lottie_light.min.js?v=1791453106"></script>
+<script src="assets/cursor/sac-symbol.js?v=1791453106"></script>
 <script>/* landing "Scroll" cue fades out once you start scrolling */
 (function(){ const c=document.querySelector('.scroll-cue'); if(!c) return;
   const f=()=>c.classList.toggle('gone',scrollY>innerHeight*.12); addEventListener('scroll',f,{passive:true}); f(); })();</script>
-<script src="assets/menu.js?v=1791452775"></script>
-<script src="assets/video-tap.js?v=1791452775"></script>
-<script src="assets/touch-press.js?v=1791452775"></script>
-<script src="assets/rise.js?v=1791452775"></script>
-<script src="assets/center-cap.js?v=1791452775"></script>
-<script src="assets/cursor/cursor.js?v=1791452775"></script>
-<script src="assets/text-pressure.js?v=1791452775"></script>
+<script src="assets/menu.js?v=1791453106"></script>
+<script src="assets/video-tap.js?v=1791453106"></script>
+<script src="assets/touch-press.js?v=1791453106"></script>
+<script src="assets/rise.js?v=1791453106"></script>
+<script src="assets/center-cap.js?v=1791453106"></script>
+<script src="assets/cursor/cursor.js?v=1791453106"></script>
+<script src="assets/text-pressure.js?v=1791453106"></script>
 </body>
 </html>

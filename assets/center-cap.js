@@ -20,11 +20,24 @@
     if(!best&&active&&vis.has(active)) return active;          // nothing new in the middle → keep the current label up
     return best;
   }
+  // the card with the label up plays its clip (video thumbnails only); it fades back to the still when the label moves on
+  function play(c,on){
+    const img=c.querySelector('img.thumb[data-vsrc]'); if(!img) return;
+    let v=c.querySelector('video.thumb-live');
+    if(on){
+      if(!v){ v=document.createElement('video'); v.className='thumb-live'; v.muted=true; v.defaultMuted=true; v.loop=true; v.playsInline=true;
+        v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.preload='auto'; v.src=img.dataset.vsrc;
+        if(img.dataset.vzoom) v.style.transform=`scale(${img.dataset.vzoom})`;
+        v.addEventListener('playing',()=>{ if(v.dataset.want==='1') v.classList.add('on'); });
+        img.parentNode.appendChild(v); }
+      v.dataset.want='1'; try{ v.currentTime=0; }catch(e){} v.play().then(()=>v.classList.add('on')).catch(()=>{});
+    } else if(v){ v.dataset.want='0'; v.classList.remove('on'); setTimeout(()=>{ if(v.dataset.want==='0') v.pause(); },500); }
+  }
   function setActive(c){
     if(c===active) return;
-    if(active){ active.classList.remove('cap-on'); const cap=active.querySelector('.tilt-cap'); if(cap) cap.style.rotate=''; }
+    if(active){ active.classList.remove('cap-on'); const cap=active.querySelector('.tilt-cap'); if(cap) cap.style.rotate=''; play(active,false); }
     active=c; rot=rv=0;
-    if(active) active.classList.add('cap-on');
+    if(active){ active.classList.add('cap-on'); play(active,true); }
   }
   function frame(now){
     const dt=Math.min(.033,(now-lastT)/1000||.016); lastT=now;
