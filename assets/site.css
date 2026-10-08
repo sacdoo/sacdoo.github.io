@@ -253,12 +253,6 @@ html,body{overflow-x:clip} /* hover labels / zoomed thumbs must never cause side
 
 /* ---------- Mobile layout (≤720px) ---------- */
 @media (max-width:720px){
-  /* thumbnails show their name + type underneath (there is no hover on phones) */
-  .grid:not(.as-list) .card .meta{display:flex;flex-direction:row;align-items:baseline;justify-content:space-between;gap:10px;margin-top:-4px}
-  .grid:not(.as-list) .card .meta .r{display:none}
-  .grid:not(.as-list) .card .meta .ty{display:inline;font-size:12px;color:var(--muted);white-space:nowrap}
-  .grid:not(.as-list) .card .meta .t{font-size:15px}
-  .grid:not(.as-list){gap:22px 12px}
   /* big "Brand / Animator" on two lines */
   .big-role{line-height:.84;margin-top:22px}
   /* interactive sketch hero: much taller on phones */
@@ -315,3 +309,9 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
   .grid .card.pressed .tilt-inner{transform:scale(.95);filter:brightness(.92);transition:transform .12s ease-out,filter .12s ease-out}
   .grid .card{-webkit-tap-highlight-color:transparent}
 }
+/* phones: thumbnails rise up from below the screen as they scroll into view */
+@media (hover:none){
+  .grid:not(.as-list) .card.rise{transform:translateY(90px);opacity:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .6s ease}
+  .grid:not(.as-list) .card.rise.in{transform:none;opacity:1}
+}
+@media (prefers-reduced-motion:reduce){.grid .card.rise{transform:none!important;opacity:1!important;transition:none!important}}
