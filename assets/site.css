@@ -322,5 +322,6 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 }
 /* phones: live clip layered over the still thumbnail while that card's label is up */
 .card .tilt-inner{position:relative}
-.card video.thumb-live{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.card video.thumb-live{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);object-fit:cover;display:block;opacity:0;transition:opacity .45s ease;pointer-events:none}
 .card video.thumb-live.on{opacity:1}
+.card.live-on img.thumb[data-vsrc]{visibility:hidden}   /* hide the still under a playing clip so its (white) edge can't peek out */

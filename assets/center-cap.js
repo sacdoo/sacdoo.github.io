@@ -34,16 +34,17 @@
     const img=c.querySelector('img.thumb[data-vsrc]'); if(!img) return;
     if(on){
       let v=pool.find(x=>x.owner===c); if(!v){ v=pool[flip]; flip^=1; if(v.owner&&v.owner!==c) v.classList.remove('on'); }
+      if(v.owner&&v.owner!==c) v.owner.classList.remove('live-on');
       v.owner=c; v.classList.remove('on');
       if(v.parentNode!==img.parentNode) img.parentNode.appendChild(v);
       v.style.transform=img.dataset.vzoom?`scale(${img.dataset.vzoom})`:'';
       if(!v.src.endsWith(img.dataset.vsrc.replace(/^.*\//,''))) v.src=img.dataset.vsrc;
       try{ v.currentTime=0; }catch(e){}
-      const go=()=>v.play().then(()=>{ if(v.owner===c) v.classList.add('on'); }).catch(()=>{});
+      const go=()=>v.play().then(()=>{ if(v.owner===c){ v.classList.add('on'); setTimeout(()=>{ if(v.owner===c) c.classList.add('live-on'); },460); } }).catch(()=>{});
       v.readyState>=2?go():v.addEventListener('loadeddata',go,{once:true}); go();
     } else {
       const v=pool.find(x=>x.owner===c); if(!v) return;
-      v.owner=null; v.classList.remove('on'); setTimeout(()=>{ if(!v.owner) v.pause(); },500);
+      c.classList.remove('live-on'); v.owner=null; v.classList.remove('on'); setTimeout(()=>{ if(!v.owner) v.pause(); },500);
     }
   }
   function setActive(c){
