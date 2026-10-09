@@ -10,6 +10,7 @@
   --on-night:#ffffff;
   --glass-ink-light:#111318;
   --glass-ink-dark:#ffffff;
+  --thumb-edge:transparent;
   --f-display:"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   --f-body:"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   --f-mono:"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
@@ -17,9 +18,9 @@
   --gutter:clamp(16px,1.8vw,28px);
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--paper:#000000;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
+  :root:not([data-theme="light"]){--thumb-edge:rgba(255,255,255,.16);--paper:#000000;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
 }
-:root[data-theme="dark"]{--paper:#000000;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
+:root[data-theme="dark"]{--thumb-edge:rgba(255,255,255,.16);--paper:#000000;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
 
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -325,3 +326,6 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 .card video.thumb-live{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);object-fit:cover;display:block;opacity:0;transition:opacity .45s ease;pointer-events:none}
 .card video.thumb-live.on{opacity:1}
 .card.live-on img.thumb[data-vsrc]{visibility:hidden}   /* hide the still under a playing clip so its (white) edge can't peek out */
+
+/* hairline edge so black-background thumbnails stay readable on the pure-black page (dark mode only) */
+.card .tilt-inner::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px var(--thumb-edge);pointer-events:none;z-index:3}
