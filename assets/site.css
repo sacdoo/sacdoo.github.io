@@ -1,13 +1,13 @@
 @font-face{font-family:'Roboto Flex';font-style:normal;font-display:swap;font-weight:100 1000;font-stretch:25% 151%;src:url(fonts/roboto-flex-latin-full.woff2) format('woff2-variations'),url(fonts/roboto-flex-latin-full.woff2) format('woff2')} /* OFL, vendored from @fontsource-variable/roboto-flex (all axes) */
 /* Layout: full-bleed reel hero, then a quiet index grid; the glass bar is the only floating UI. */
 :root{
-  --paper:#e8eaee;
+  --paper:#ffffff;
   --ink:#111318;
   --muted:#5b6170;
   --line:#cdd1d9;
   --accent:#3d5afe;
-  --night:#0e0e13;
-  --on-night:#f1efe9;
+  --night:#000000;
+  --on-night:#ffffff;
   --glass-ink-light:#111318;
   --glass-ink-dark:#ffffff;
   --f-display:"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
@@ -17,9 +17,9 @@
   --gutter:clamp(16px,1.8vw,28px);
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--paper:#121318;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
+  :root:not([data-theme="light"]){--paper:#000000;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
 }
-:root[data-theme="dark"]{--paper:#121318;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
+:root[data-theme="dark"]{--paper:#000000;--ink:#e9ebf0;--muted:#8d93a2;--line:#2a2d37;--accent:#8196ff;color-scheme:dark}
 
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -180,7 +180,7 @@ body[data-page="project"]{--paper:#ffffff;--ink:#111318;--muted:#5b6170;--line:#
 
 /* Case pages pick black or white to suit the work (projects.js → bg) */
 body[data-page="project"][data-bg="black"]{--paper:#000000;--ink:#f1f1f1;--muted:#8c8c8c;--line:#262626;color-scheme:dark;background:#000;color:var(--ink)}
-body[data-page="project"][data-bg="black"] .pj-media .box{background:#0d0d0d}
+body[data-page="project"][data-bg="black"] .pj-media .box{background:#000}
 
 /* Seamless boards: stacked images touch edge to edge, full bleed, no gaps */
 body[data-seamless] .pj-media{gap:0;padding-bottom:0;margin-inline:calc(-1 * var(--gutter))}
