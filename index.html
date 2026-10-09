@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SAC</title>
 <script>/* hide the system pointer from the very first paint on mouse devices (the green symbol cursor replaces it) */if(matchMedia("(hover: hover) and (pointer: fine)").matches)document.documentElement.classList.add("has-sym-cursor")</script>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791546307" id="favicon">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791546883" id="favicon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.write('<link rel="stylesheet" href="assets/site.css?v='+Date.now()+'">')</script>
 </head>
@@ -197,7 +197,7 @@ const thumbHTML=p=>{
   return `<img class="thumb" data-mirror="media" ${CO} loading="lazy" alt="${esc(p.title)}" src="${LOCAL+base}" data-remote="${IMG+p.thumb[1]}" onerror="if(this.dataset.remote){this.removeAttribute('crossorigin');this.src=this.dataset.remote;this.dataset.remote=''}">`;
 };
 PROJECTS.forEach(p=>{
-  const a=document.createElement('a'); a.className='card'; a.setAttribute('aria-label',p.title.replace(/\n/g,' ')); a.href=`project.html?p=${encodeURIComponent(p.slug)}`;
+  const a=document.createElement('a'); a.className='card'; a.setAttribute('aria-label',p.title.replace(/\n/g,' ')); a.href=`project.html?p=${encodeURIComponent(p.slug)}`; a.dataset.slug=p.slug;
   a.innerHTML=`<div class="tilt"><div class="tilt-inner">${thumbHTML(p)}</div><span class="tilt-cap" aria-hidden="true">${esc(p.label||p.title.replace(/\n/g,' '))}${p.type?`<small>${esc(p.type)}</small>`:''}</span></div>
     <div class="meta"><span class="t" data-mirror="text"><b>${esc(p.label||p.title.replace(/\n/g,' '))}</b></span><span class="r" data-mirror="text">${esc(p.contrib||myRole(p))} · ${p.year}</span>${p.type?`<span class="ty">${esc(p.type)}</span>`:''}</div>`;
   grid.appendChild(a);
@@ -306,17 +306,17 @@ addEventListener('pageshow',e=>{ if(e.persisted) fade.classList.remove('on'); })
 })();
 </script>
 <script>document.write('<script src="assets/glass.js?v='+Date.now()+'"><\/script>')</script>
-<script src="assets/vendor/lottie_light.min.js?v=1791546307"></script>
-<script src="assets/cursor/sac-symbol.js?v=1791546307"></script>
+<script src="assets/vendor/lottie_light.min.js?v=1791546883"></script>
+<script src="assets/cursor/sac-symbol.js?v=1791546883"></script>
 <script>/* landing "Scroll" cue fades out once you start scrolling */
 (function(){ const c=document.querySelector('.scroll-cue'); if(!c) return;
   const f=()=>c.classList.toggle('gone',scrollY>innerHeight*.12); addEventListener('scroll',f,{passive:true}); f(); })();</script>
-<script src="assets/menu.js?v=1791546307"></script>
-<script src="assets/video-tap.js?v=1791546307"></script>
-<script src="assets/touch-press.js?v=1791546307"></script>
-<script src="assets/rise.js?v=1791546307"></script>
-<script src="assets/center-cap.js?v=1791546307"></script>
-<script src="assets/cursor/cursor.js?v=1791546307"></script>
-<script src="assets/text-pressure.js?v=1791546307"></script>
+<script src="assets/menu.js?v=1791546883"></script>
+<script src="assets/video-tap.js?v=1791546883"></script>
+<script src="assets/touch-press.js?v=1791546883"></script>
+<script src="assets/rise.js?v=1791546883"></script>
+<script src="assets/center-cap.js?v=1791546883"></script>
+<script src="assets/cursor/cursor.js?v=1791546883"></script>
+<script src="assets/text-pressure.js?v=1791546883"></script>
 </body>
 </html>
