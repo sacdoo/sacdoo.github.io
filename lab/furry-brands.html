@@ -153,6 +153,8 @@ function spawnParticles(){
   const send=m=>{ try{ parent.postMessage(m,'*'); }catch(e){} };
   addEventListener('pointermove',e=>{ if(e.pointerType==='mouse') send({symCursor:'move',x:e.clientX,y:e.clientY}); },{passive:true});
   document.addEventListener('mouseleave',()=>send({symCursor:'leave'}));
+  // the canvas page blocks scroll chaining (overscroll-behavior:none for touch), so hand mouse-wheel / trackpad scrolling to the case page
+  addEventListener('wheel',e=>{ if(e.ctrlKey) return; const k=e.deltaMode===1?16:e.deltaMode===2?innerHeight:1; send({furryScroll:'by',dy:e.deltaY*k}); },{passive:true});
 })();
 </script>
 </body>
