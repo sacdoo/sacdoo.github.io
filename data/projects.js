@@ -408,6 +408,22 @@ True to Woori`,
  ]
 },
 {
+ "slug": "skylrk-logo-animation",
+ "bg": "white",
+ "label": "SKYLRK",
+ "type": "Logo Animation",
+ "source": "personal",
+ "client": "Personal Project",
+ "owner": "Personal Project",
+ "year": "2026",
+ "title": "SKYLRK",
+ "contrib": "Logo Animation",
+ "credits": [],
+ "hero": ["l", "skylrk.mp4", 100, 1.7778],
+ "thumb": ["lv", "skylrk.mp4", 4],
+ "body": []
+},
+{
  "slug": "elago-iphone-17-silicone",
  "bg": "white",
  "type": "Product Film",
