@@ -75,7 +75,7 @@ a{color:inherit}
 /* ---------- Work ---------- */
 .work{padding-block:72px 40px}
 .work-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:28px}
-.work-head h2{margin:0;font-family:var(--f-display);font-weight:600;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.03em;text-wrap:balance}
+.work-head h2{margin:0;font-family:var(--f-display);font-weight:600;font-size:clamp(22px,2.7vw,34px);letter-spacing:-.03em;text-wrap:balance}
 .work-head h2 sup{font-family:var(--f-mono);font-size:13px;font-weight:400;letter-spacing:0;color:var(--muted);margin-left:6px;vertical-align:super}
 .note{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .view-toggle{display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px}

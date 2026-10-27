@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SAC</title>
 <script>/* hide the system pointer from the very first paint on mouse devices (the green symbol cursor replaces it) */if(matchMedia("(hover: hover) and (pointer: fine)").matches)document.documentElement.classList.add("has-sym-cursor")</script>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1791654389" id="favicon">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=1793090785" id="favicon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.write('<link rel="stylesheet" href="assets/site.css?v='+Date.now()+'">')</script>
 </head>
@@ -49,7 +49,7 @@ const ME='엄태은';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const slug=new URLSearchParams(location.search).get('p');
 const i=Math.max(0,PROJECTS.findIndex(p=>p.slug===slug)); const p=PROJECTS[i]; const next=PROJECTS[(i+1)%PROJECTS.length];
-document.title=`${p.title.replace(/\n/g,' ')} - SAC`;
+document.title=`${(p.label||p.title).replace(/\n/g,' ')} - SAC`;
 document.body.dataset.bg=p.bg||'white';
 if(p.seamless) document.body.dataset.seamless=''; // Behance board images read as one continuous canvas
 
@@ -69,7 +69,7 @@ function media(m, cls){
 let html='';
 if(p.hero){ html+=`<div class="pj-hero${p.hero[4]==='contain'?' contain':''}${p.hero[0]==='x'?' is-x':''}" data-mirror="box" style="aspect-ratio:${p.hero[3]}">${media(p.hero)}${p.heroSound?'<button type="button" class="pj-sound" aria-pressed="false">Sound on</button>':''}</div>`; }
 html+=`<div class="wrap">
-  <header class="pj-head"><h1><span data-mirror="text">${esc(p.title.split('\n')[0])}</span>${p.title.includes('\n')?'\n'+esc(p.title.split('\n').slice(1).join(' ')):''}</h1>
+  <header class="pj-head"><h1><span data-mirror="text">${esc(p.label||p.title.split('\n')[0])}</span>${!p.label&&p.title.includes('\n')?'\n'+esc(p.title.split('\n').slice(1).join(' ')):''}</h1>
     ${(p.awards&&p.awards.length)?`<div class="pj-awards" aria-label="Awards">${p.awards.map(w=>w.img?`<img src="${w.img}" alt="${esc(w.name)}" title="${esc(w.name)}">`:`<span class="pj-award-txt" title="${esc(w.name+(w.grade?' — '+w.grade:''))}"><b>${esc(w.name)}</b>${w.grade?`<small>${esc(w.grade)}</small>`:''}</span>`).join('')}</div>`:''}
   </header>`;
 // body: first text = headline, second text = intro; after that short text = subheading, long = paragraph
@@ -105,7 +105,7 @@ html+=`<dl class="pj-credits">
   </dl>
   <div class="pj-foot">
     <span></span>
-    <a class="next" href="project.html?p=${encodeURIComponent(next.slug)}">Next — ${esc(next.title.replace(/\n/g,' '))} →</a>
+    <a class="next" href="project.html?p=${encodeURIComponent(next.slug)}">Next — ${esc(next.label||next.title.replace(/\n/g,' '))} →</a>
   </div>
 </div>`;
 document.getElementById('project').innerHTML=html;
@@ -119,11 +119,11 @@ if(snd){ const hv=snd.parentNode.querySelector('video'); snd.onclick=()=>{ hv.mu
 })();
 </script>
 <script>document.write('<script src="assets/glass.js?v='+Date.now()+'"><\/script>')</script>
-<script src="assets/vendor/lottie_light.min.js?v=1791654389"></script>
-<script src="assets/cursor/sac-symbol.js?v=1791654389"></script>
-<script src="assets/menu.js?v=1791654389"></script>
-<script src="assets/video-tap.js?v=1791654389"></script>
-<script src="assets/cursor/cursor.js?v=1791654389"></script>
-<script src="assets/text-pressure.js?v=1791654389"></script>
+<script src="assets/vendor/lottie_light.min.js?v=1793090785"></script>
+<script src="assets/cursor/sac-symbol.js?v=1793090785"></script>
+<script src="assets/menu.js?v=1793090785"></script>
+<script src="assets/video-tap.js?v=1793090785"></script>
+<script src="assets/cursor/cursor.js?v=1793090785"></script>
+<script src="assets/text-pressure.js?v=1793090785"></script>
 </body>
 </html>
