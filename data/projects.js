@@ -417,11 +417,22 @@ True to Woori`,
  "owner": "Personal Project",
  "year": "2026",
  "title": "SKYLRK",
- "contrib": "Logo Animation",
+ "contrib": "Motion Identity, Logo Animation",
  "credits": [],
  "hero": ["l", "skylrk.mp4", 100, 1.7778],
  "thumb": ["lv", "skylrk.mp4", 4],
- "body": []
+ "body": [
+  "Out of the sky, into the mark.",
+  "A logo animation for SKYLRK. The wordmark condenses out of a soft, drifting sky gradient, holds for a beat, then melts into a single fluid form that stretches into the brand symbol — a pair of wings carried on the same slow current of light and shadow.",
+  ["L", "skylrk-01.jpg", 100, 1.7778],
+  ["L", "skylrk-02.jpg", 50, 1.2],
+  ["L", "skylrk-03.jpg", 50, 1.2],
+  "Every transition stays liquid. Letters blur in like cloud breaking apart, merge into one droplet and pull out into the symbol, so type and mark read as one continuous motion rather than two separate pieces.",
+  ["L", "skylrk-04.jpg", 33, 1.7778],
+  ["L", "skylrk-05.jpg", 34, 1.7778],
+  ["L", "skylrk-06.jpg", 33, 1.7778],
+  ["L", "skylrk-07.jpg", 100, 1.7778]
+ ]
 },
 {
  "slug": "elago-iphone-17-silicone",
