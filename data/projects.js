@@ -447,7 +447,7 @@ True to Woori`,
  "contrib": "Motion Identity, Logo Animation",
  "credits": [],
  "hero": ["l", "a2o.mp4", 100, 1.7778],
- "thumb": ["lv", "a2o.mp4", 5.5, 1.8],
+ "thumb": ["lv", "a2o.mp4", 5.5, 1.25],
  "body": [
   "One stroke, three letters.",
   "A logo animation for A2O. Everything grows out of a single thin line: it splits into two bars, folds into the arch of the A, closes into the O and snaps back again, until the pieces slide apart and lock into the full wordmark — then breaks back into fragments and clears the frame.",
