@@ -435,6 +435,32 @@ True to Woori`,
  ]
 },
 {
+ "slug": "a2o-logo-animation",
+ "bg": "white",
+ "label": "A2O",
+ "type": "Logo Animation",
+ "source": "personal",
+ "client": "Personal Project",
+ "owner": "Personal Project",
+ "year": "2026",
+ "title": "A2O",
+ "contrib": "Motion Identity, Logo Animation",
+ "credits": [],
+ "hero": ["l", "a2o.mp4", 100, 1.7778],
+ "thumb": ["lv", "a2o.mp4", 5.5, 1.8],
+ "body": [
+  "One stroke, three letters.",
+  "A logo animation for A2O. Everything grows out of a single thin line: it splits into two bars, folds into the arch of the A, closes into the O and snaps back again, until the pieces slide apart and lock into the full wordmark — then breaks back into fragments and clears the frame.",
+  ["L", "a2o-01.jpg", 100, 1.7778],
+  ["L", "a2o-02.jpg", 50, 1.2],
+  ["L", "a2o-03.jpg", 50, 1.2],
+  "The motion is built only from the geometry already inside the letterforms — flat black bars, hard corners and rounded ends — so every in-between frame still feels like part of the logo rather than an effect laid on top of it.",
+  ["L", "a2o-04.jpg", 33, 1.7778],
+  ["L", "a2o-05.jpg", 34, 1.7778],
+  ["L", "a2o-06.jpg", 33, 1.7778]
+ ]
+},
+{
  "slug": "elago-iphone-17-silicone",
  "bg": "white",
  "type": "Product Film",
