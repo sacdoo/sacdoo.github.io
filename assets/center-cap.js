@@ -60,7 +60,7 @@
     if(active&&!RM){
       const t=Math.max(-4,Math.min(4,vel*.005));   // swings with the swipe direction
       rv+=(110*(t-rot)-11*rv)*dt; rot+=rv*dt;
-      const cap=active.querySelector('.tilt-cap'); if(cap) cap.style.rotate=rot.toFixed(2)+'deg';
+      /* label rotation removed: the popup stays level while scrolling */
     }
     const moving=Math.abs(dy)>0||Math.abs(vel)>4||Math.abs(rot)>.05||Math.abs(rv)>.05;
     raf=moving?requestAnimationFrame(frame):0; if(!raf) vel=0;
