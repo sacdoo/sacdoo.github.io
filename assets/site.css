@@ -124,10 +124,10 @@ a{color:inherit}
 @media (max-width:860px){.pj-intro{grid-template-columns:minmax(0,1fr)}}
 .pj-intro h2,.pj-sub h3{margin:0;font-family:var(--f-display);font-weight:600;font-size:clamp(24px,2.8vw,38px);line-height:1.2;letter-spacing:-.02em;white-space:pre-line;text-wrap:balance}
 .pj-text{white-space:pre-line;line-height:1.75;max-width:68ch;color:var(--ink)}
-.pj-media{display:flex;flex-wrap:wrap;gap:12px;padding-bottom:12px}
+.pj-media{display:flex;flex-wrap:wrap;gap:0;padding-bottom:0} /* media sit edge to edge, no gaps */
 .pj-media > figure{margin:0;flex:1 1 100%;min-width:0}
-.pj-media > figure.half{flex:1 1 calc(50% - 6px)}
-.pj-media > figure.third{flex:1 1 calc(33.333% - 8px)}
+.pj-media > figure.half{flex:1 1 50%}
+.pj-media > figure.third{flex:1 1 33.333%}
 @media (max-width:560px){.pj-media > figure.half,.pj-media > figure.third{flex-basis:100%}}
 .pj-media > figure.small{flex:0 0 auto;width:clamp(96px,13%,180px)}
 .pj-media .box{position:relative;width:100%;max-width:100%;overflow:hidden;background:color-mix(in srgb,var(--ink) 6%,var(--paper))}
@@ -239,10 +239,10 @@ body[data-seamless] .pj-media .box > img{position:static;height:auto}
 .pj-sound{position:absolute;right:var(--gutter);bottom:20px;z-index:2;inset:auto var(--gutter) 20px auto;width:auto;height:auto;font:500 13px var(--f-body);color:#fff;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:9px 16px;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .pj-sound[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}
 
-.pj-media > figure.quarter{flex:1 1 calc(25% - 9px)}
-@media (max-width:720px){.pj-media > figure.quarter{flex-basis:calc(50% - 6px)}}
-.pj-media > figure.fifth{flex:1 1 calc(20% - 10px)}
-@media (max-width:720px){.pj-media > figure.fifth{flex-basis:calc(33.333% - 8px)}}
+.pj-media > figure.quarter{flex:1 1 25%}
+@media (max-width:720px){.pj-media > figure.quarter{flex-basis:50%}}
+.pj-media > figure.fifth{flex:1 1 20%}
+@media (max-width:720px){.pj-media > figure.fifth{flex-basis:33.333%}}
 .sym-cursor > b{position:absolute;left:0;top:0;transform:translate(-50%,-50%) scale(0);font:400 13px/1 var(--f-body);letter-spacing:-.01em;color:#000;white-space:nowrap;opacity:0;
   transition:transform .2s cubic-bezier(.55,0,.75,.2),opacity .15s ease}
 .sym-cursor.on.hot > b{opacity:1;transform:translate(-50%,-50%) scale(1);transition:transform .45s cubic-bezier(.34,1.8,.64,1),opacity .15s ease}
