@@ -9,7 +9,7 @@ window.SOURCE_BASE = 'https://samseoul.com/branding/';
 window.PROJECTS = [
 {
  "slug": "athler",
- "bg": "black",
+ "bg": "white",
  "label": "ATHLER",
  "type": "Rebranding",
  "source": "na1",
