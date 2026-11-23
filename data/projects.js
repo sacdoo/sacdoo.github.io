@@ -173,7 +173,7 @@ window.PROJECTS = [
   type:'Rebranding',
   contrib:'Brand Design, Motion Identity, Brand Film',
   role:['Research & Concept Planning','Verbal Identity','Visual Identity Design','Brand Film','Brand Campaign'],
-  thumb:['i','KOr16F4rDiDTpmL7kXOdEoJ0h90.gif?scale-down-to=1024&width=1200&height=636'],
+  thumb:['lv','F8hpNAG85QHLc09veFJS5M35vyQ.mp4',1.5], /* was the white centred logo GIF (KOr16F4rDiDTpmL7kXOdEoJ0h90) — swapped for an in-use film frame so it no longer sits beside ZIC's white logo */
   hero:['i','lwD4hdvF1V1BGZbrNIwzn6VU.jpg?width=3738&height=2160',100,1.8],
   body:[
     `Every Investment in the World, Kodex`,

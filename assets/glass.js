@@ -54,7 +54,7 @@ void main(){
   float inside=clamp(-d/uBevel,0.,1.);float e=1.-inside;float bend=1.-sqrt(max(1.-e*e,0.)); // circular lens profile
   vec4 smp=refr(p/uZoom,n*bend*uRefract);
   float cov=smp.a; vec3 col=smp.rgb/max(cov,1e-3);
-  vec4 tint=mix(vec4(1.,1.,1.,.14),vec4(.04,.04,.06,.08),uDark);
+  vec4 tint=mix(vec4(1.,1.,1.,.58),vec4(.05,.05,.07,.52),uDark); // denser frost so menu text stays crisp over bright or dark work
   col=mix(col,tint.rgb,tint.a);
   float l=dot(col,vec3(.299,.587,.114));col=mix(vec3(l),col,1.22);
   vec2 L=normalize(vec2(-.5,-1.));
@@ -70,8 +70,9 @@ void main(){
   float al=a*(cov+hh*(1.-cov));
   if(uIndOn>.001){
     vec2 c=uInd.xy;vec2 ib=uInd.zw*.5;
-    float pm=(1.-smoothstep(-.75,.75,sdRB(p-c,ib,min(ib.x,ib.y))))*uIndOn*.86*a;
-    rgb=rgb*(1.-pm)+vec3(pm); al=al*(1.-pm)+pm;
+    float pm=(1.-smoothstep(-.75,.75,sdRB(p-c,ib,min(ib.x,ib.y))))*uIndOn*.97*a;
+    vec3 pc=mix(vec3(.067,.075,.094),vec3(1.),uDark); // active pill: ink on light backdrops, white on dark ones
+    rgb=rgb*(1.-pm)+pc*pm; al=al*(1.-pm)+pm;
   }
   gl_FragColor=vec4(rgb,al);
 }`;

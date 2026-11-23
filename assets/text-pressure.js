@@ -20,7 +20,10 @@
     // one font size for all lines, fitted so the longest line fills the column
     const col=host.parentElement.clientWidth;
     const widest=Math.max(...lines.map(l=>l.el.offsetWidth));
-    host.style.fontSize=(parseFloat(getComputedStyle(host).fontSize)*col/widest)+'px';
+    let fs=parseFloat(getComputedStyle(host).fontSize)*col/widest;
+    // desktop single line: cap the size (data-max-vw, % of viewport width — 11.806 ≈ 170px at 1440) so the signature closes the page without overpowering the email
+    const capVw=parseFloat(host.dataset.maxVw); if(mode==='one'&&capVw) fs=Math.min(fs,innerWidth*capVw/100);
+    host.style.fontSize=fs+'px';
     lines.forEach(l=>{ l.idle=l.el.offsetWidth; });
   }
   function hold(){ lines.forEach(l=>{ l.el.style.transform=`scaleX(${(l.idle/l.el.offsetWidth).toFixed(4)})`; }); }

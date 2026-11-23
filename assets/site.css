@@ -329,3 +329,90 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 
 /* dark mode: black-background thumbnails get a faint light glow fading in from all four edges, so they separate from the pure-black page */
 .card[data-slug="cjone"] .tilt-inner::after,.card[data-slug="gemini-symbol-animation"] .tilt-inner::after,.card[data-slug="grok-logo-animation"] .tilt-inner::after,.card[data-slug="furry-brands"] .tilt-inner::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 28px 2px var(--thumb-edge);pointer-events:none;z-index:3}
+
+/* =====================================================================
+   Home visual refresh (2026-11): section titles, type hierarchy, grid rhythm,
+   always-on captions, sturdier nav. Scoped to body.home unless noted.
+   ===================================================================== */
+body.home{--gutter:32px;--col-gap:16px;--row-gap:32px}
+@media (max-width:720px){body.home{--gutter:16px;--row-gap:24px}}
+
+/* 1. One section-title style: WORK / ABOUT / CONTACT */
+.home .sec-title{margin:0;font-family:var(--f-body);font-size:14px;font-weight:500;line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:inherit;display:flex;align-items:baseline;gap:10px}
+.home .sec-count{font-size:12px;font-weight:400;letter-spacing:.02em;text-transform:none;color:var(--muted)}
+
+/* Work head */
+.home .work{padding-block:80px 72px}
+.home .work-head{align-items:center;padding-bottom:14px;margin-bottom:24px}
+.home .work-head h2{font-size:14px;font-weight:500;letter-spacing:.06em;text-wrap:initial}
+
+/* 3. Grid rhythm — desktop: 32 outer / 16 column / 32 row; phones: 16 outer / 24 between works */
+.home .grid:not(.as-list){gap:var(--row-gap) var(--col-gap)}
+/* hairline edge so white-background thumbnails (e.g. ZIC) don't dissolve into the white page */
+.home .card .tilt-inner::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(17,19,24,.07);pointer-events:none;z-index:3}
+
+/* 4. Captions under every card (grid): project name + work type */
+.home .grid:not(.as-list) .card{gap:12px}
+.home .grid:not(.as-list) .card .meta{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.home .card .meta .t{overflow:visible;text-overflow:clip}
+.home .grid:not(.as-list) .card .meta .t{font-size:15px;line-height:1.35;letter-spacing:-.005em}
+.home .card .meta .t b{font-weight:500}
+.home .grid:not(.as-list) .card .meta .ty{display:block;font-size:12.5px;line-height:1.35;color:var(--muted)}
+.home .grid:not(.as-list) .card .meta .r{display:none}
+
+/* List: name | role · year (desktop row), name / role · year (phones) */
+.home .grid.as-list .card .meta .ty{display:none}
+.home .grid.as-list .card .meta{gap:6px 32px}
+.home .grid.as-list .card .meta .t{flex:1 1 auto;min-width:0;line-height:1.25}
+.home .grid.as-list .card .meta .r{flex:0 1 46%;font-size:13px;line-height:1.4}
+@media (max-width:720px){
+  .home .grid.as-list .card{padding-block:16px}
+  .home .grid.as-list .card .meta{flex-direction:column;align-items:flex-start;gap:4px}
+  .home .grid.as-list .card .meta .t{font-size:17px}
+  .home .grid.as-list .card .meta .r{flex:none;text-align:left;font-size:13px}
+}
+
+/* About: body starts where the 2nd work column starts (same 3-col track, same 16px gap) */
+.home .about{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--col-gap);row-gap:24px;padding-block:88px 104px}
+.home .about .ab-title{grid-column:1;padding-top:.45em}
+.home .about .ab-body{grid-column:2 / -1;gap:40px}
+@media (max-width:960px){
+  .home .about{grid-template-columns:minmax(0,1fr)}
+  .home .about .ab-title,.home .about .ab-body{grid-column:1;padding-top:0}
+}
+/* 2. Key text hierarchy */
+.home .ab-lead{font-size:38px;font-weight:400;line-height:1.2;letter-spacing:-.02em;max-width:24ch}
+@media (max-width:720px){.home .ab-lead{font-size:30px}.home .about{padding-block:64px 72px}}
+
+/* Contact: title → email (read first) → socials → neon signature as the closing beat */
+.home .contact .wrap{display:block;padding-block:72px 48px}
+.home .ct-title{color:rgba(255,255,255,.62)}
+.home .ct-main{display:flex;justify-content:space-between;align-items:flex-end;gap:20px 32px;flex-wrap:wrap;margin-top:24px}
+.home .contact .mail{font-family:var(--f-body);font-size:36px;font-weight:400;line-height:1.2;letter-spacing:-.02em;padding-bottom:4px;border-bottom-color:rgba(255,255,255,.35)}
+.home .sns-row{padding-bottom:8px}
+.home .big-role{margin:128px 0 0}
+@media (max-width:720px){
+  .home .contact .wrap{padding-block:56px calc(env(safe-area-inset-bottom,0px) + 104px)}   /* room for the bottom menu */
+  .home .contact .mail{font-size:26px}
+  .home .ct-main{flex-direction:column;align-items:flex-start;gap:24px;margin-top:20px}
+  .home .big-role{margin-top:80px}
+}
+
+/* 6. Navigation (site-wide): 14px / 500, clear pill, 44px touch targets on phones */
+.bar{height:42px}
+.items a{font-size:14px;font-weight:500;letter-spacing:0;padding:0 14px;height:32px;opacity:.9}
+.items a.is-active{opacity:1}
+.burger{width:32px;height:32px}
+.bar.no-gl{background:rgba(18,18,22,.6)}
+.bar.no-gl[data-tone="light"]{background:rgba(255,255,255,.72)}
+.bar.no-gl .items a.is-active{background:#fff;color:var(--glass-ink-light)}
+.bar[data-tone="light"] .items a.on-pill{color:#fff}
+.bar.no-gl[data-tone="light"] .items a.is-active{background:#111318;color:#fff}
+@media (max-width:720px){
+  .bar{height:52px}
+  .bar-inner{padding-inline:4px}
+  .items a{height:44px;min-width:44px;padding:0 16px;justify-content:center}
+  .burger{width:44px;height:44px}
+  .scroll-cue{bottom:calc(env(safe-area-inset-bottom,0px) + 88px)}
+}
+@media (max-width:400px){.items a{padding:0 14px}}
