@@ -391,19 +391,19 @@ body:not([data-page="project"]){--gutter:32px}
 }
 @media (max-width:400px){.items a{padding:0 14px}}
 
-/* Case pages: top block = credits stacked in col 1, slogan + body in cols 2–3 (same 3-col track as home) */
-.pj-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px;row-gap:40px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:24px}
+/* Case pages: two halves — credits on the left, slogan + body on the right */
+.pj-top{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px;row-gap:40px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:24px}
 .pj-top .pj-credits{margin:0;padding:0;border:0;grid-template-columns:none;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
 .pj-top .pj-credits dt{font-family:var(--f-body);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .pj-top .pj-credits dd{margin:0;font-size:16px;line-height:1.45}
-.pj-top .pj-intro{grid-column:2 / -1;padding-block:0 40px}
+.pj-top .pj-intro{grid-column:2;padding-block:0 40px}
 .pj-head{padding-bottom:32px}
 .pj-head .pj-awards{margin-top:-16px}
 /* slogan (bold headline) above its body copy; mid-page subsections follow the same column */
 .pj-intro,.pj-sub{grid-template-columns:minmax(0,1fr);gap:20px;align-content:start}
 .pj-intro > h2,.pj-sub > h3{max-width:26ch}
 .pj-sub > h3:empty{display:none}
-@media (min-width:861px){.pj-sub{padding-left:calc((100% - 32px) / 3 + 16px)}}
+@media (min-width:861px){.pj-sub{padding-left:calc(50% + 8px)}}   /* body copy lives in the right half */
 @media (max-width:860px){.pj-top{grid-template-columns:minmax(0,1fr)}.pj-top .pj-intro{grid-column:auto}}
 
 /* Case pages on a white background: the footer stays white too */
