@@ -78,7 +78,7 @@ html+=`<div class="wrap">
   <div class="pj-top">
     <dl class="pj-credits">
       <div><dt>Project Owner</dt><dd>${esc(owner)}</dd></div>
-      ${IS_SAM?'<div><dt>Agency</dt><dd>SAM SEOUL</dd></div>':''}
+      ${(p.agency||(IS_SAM?'SAM SEOUL':''))?`<div><dt>Agency</dt><dd>${esc(p.agency||'SAM SEOUL')}</dd></div>`:''}
       <div class="pj-contrib"><dt>Contributions</dt><dd>${contrib.split(/,\s*/).map(c=>`<span class="nowrap">${esc(c)}</span>`).join('<br>')}</dd></div>
     </dl>
 `;
