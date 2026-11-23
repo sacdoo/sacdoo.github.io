@@ -68,12 +68,20 @@ function media(m, cls){
 }
 let html='';
 if(p.hero){ html+=`<div class="pj-hero${p.hero[4]==='contain'?' contain':''}${p.hero[0]==='x'?' is-x':''}" data-mirror="box" style="aspect-ratio:${p.hero[3]}">${media(p.hero)}${p.heroSound?'<button type="button" class="pj-sound" aria-pressed="false">Sound on</button>':''}</div>`; }
+const IS_BH=p.source==='behance', IS_SAM=!p.source;
+const owner=p.owner||(p.credits.find(([r])=>/project owner/i.test(r))||[,p.client])[1];
+const contrib=p.contrib||[...new Set(p.credits.filter(([r,n])=>n.split(/,\s*/).includes(ME)).map(([r])=>r.replace(/\b\w/g,c=>c.toUpperCase()).replace(/^Motion Graphic$/,'Motion Graphics')))].join(', ');
 html+=`<div class="wrap">
   <header class="pj-head"><h1><span data-mirror="text">${esc(p.label||p.title.split('\n')[0])}</span>${!p.label&&p.title.includes('\n')?'\n'+esc(p.title.split('\n').slice(1).join(' ')):''}</h1>
     ${(p.awards&&p.awards.length)?`<div class="pj-awards" aria-label="Awards">${p.awards.map(w=>w.img?`<img src="${w.img}" alt="${esc(w.name)}" title="${esc(w.name)}">`:`<span class="pj-award-txt" title="${esc(w.name+(w.grade?' — '+w.grade:''))}"><b>${esc(w.name)}</b>${w.grade?`<small>${esc(w.grade)}</small>`:''}</span>`).join('')}</div>`:''}
+    <dl class="pj-credits">
+      <div><dt>Project Owner</dt><dd>${esc(owner)}</dd></div>
+      ${IS_SAM?'<div><dt>Agency</dt><dd>SAM SEOUL</dd></div>':''}
+      <div class="pj-contrib"><dt>Contributions</dt><dd>${contrib.split(/,\s*/).map(c=>`<span class="nowrap">${esc(c)}</span>`).join('<br>')}</dd></div>
+    </dl>
   </header>`;
 // body: first text = headline, second text = intro; after that short text = subheading, long = paragraph
-const IS_BH=p.source==='behance', IS_SAM=!p.source, BH=IS_BH&&!p.layoutIntro;
+const BH=IS_BH&&!p.layoutIntro;
 let texts=BH?2:0, sub=null, row=[];
 const flush=()=>{ if(row.length){ html+=`<div class="pj-media">${row.join('')}</div>`; row=[]; } };
 const closeSub=()=>{ if(sub){ html+=`<section class="pj-sub"><h3>${esc(sub.h||'')}</h3><div class="pj-text">${esc(sub.p||'')}</div></section>`; sub=null; } };
@@ -96,14 +104,7 @@ for(const b of p.body){
 }
 if(introOpen) html+='</section>';
 closeSub(); flush();
-const owner=p.owner||(p.credits.find(([r])=>/project owner/i.test(r))||[,p.client])[1];
-const contrib=p.contrib||[...new Set(p.credits.filter(([r,n])=>n.split(/,\s*/).includes(ME)).map(([r])=>r.replace(/\b\w/g,c=>c.toUpperCase()).replace(/^Motion Graphic$/,'Motion Graphics')))].join(', ');
-html+=`<dl class="pj-credits">
-    <div><dt>Project Owner</dt><dd>${esc(owner)}</dd></div>
-    ${IS_SAM?'<div><dt>Agency</dt><dd>SAM SEOUL</dd></div>':''}
-    <div><dt>Contributions</dt><dd>${contrib.split(/,\s*/).map(c=>`<span class="nowrap">${esc(c)}</span>`).join('<br>')}</dd></div>
-  </dl>
-  <div class="pj-foot">
+html+=`<div class="pj-foot">
     <span></span>
     <a class="next" href="project.html?p=${encodeURIComponent(next.slug)}">Next — ${esc(next.label||next.title.replace(/\n/g,' '))} →</a>
   </div>
