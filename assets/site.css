@@ -391,16 +391,15 @@ body:not([data-page="project"]){--gutter:32px}
 }
 @media (max-width:400px){.items a{padding:0 14px}}
 
-/* Case pages: credits sit at the top, under the title, as a quiet 3-col meta row */
-.pj-head .pj-credits{margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 16px}
+/* Case pages: credits sit at the top, under the title, grouped on the left */
+.pj-head .pj-credits{margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:flex-start;gap:20px 56px}
+.pj-head .pj-credits > div{min-width:0}
 .pj-head .pj-credits dt{font-family:var(--f-body);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .pj-head .pj-credits dd{margin:0;font-size:16px;line-height:1.45}
 .pj-head .pj-awards{margin-top:-16px}
-@media (max-width:720px){
-  .pj-head .pj-credits{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .pj-head .pj-credits .pj-contrib{grid-column:1 / -1}
-}
-@media (min-width:861px){   /* intro/sub copy starts on the same column as the 2nd credit, so the top block reads as one grid */
-  .pj-intro,.pj-sub{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px}
-  .pj-intro > .pj-text,.pj-sub > .pj-text{grid-column:2 / -1}
-}
+@media (max-width:720px){.pj-head .pj-credits{gap:20px 40px}}
+
+/* slogan (bold headline) sits above its body copy, both on the left */
+.pj-intro,.pj-sub{grid-template-columns:minmax(0,1fr);gap:20px}
+.pj-intro > h2,.pj-sub > h3{max-width:26ch}
+.pj-sub > h3:empty{display:none}
