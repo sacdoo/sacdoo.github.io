@@ -391,13 +391,12 @@ body:not([data-page="project"]){--gutter:32px}
 }
 @media (max-width:400px){.items a{padding:0 14px}}
 
-/* Case pages: credits sit at the top, under the title, grouped on the left */
-.pj-head .pj-credits{margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:flex-start;gap:20px 56px}
+/* Case pages: credits sit at the top, under the title, stacked in one column */
+.pj-head .pj-credits{margin:0;padding:16px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:16px}
 .pj-head .pj-credits > div{min-width:0}
 .pj-head .pj-credits dt{font-family:var(--f-body);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .pj-head .pj-credits dd{margin:0;font-size:16px;line-height:1.45}
 .pj-head .pj-awards{margin-top:-16px}
-@media (max-width:720px){.pj-head .pj-credits{gap:20px 40px}}
 
 /* slogan (bold headline) sits above its body copy, both on the left */
 .pj-intro,.pj-sub{grid-template-columns:minmax(0,1fr);gap:20px}
