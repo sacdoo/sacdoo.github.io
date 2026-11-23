@@ -74,35 +74,39 @@ const contrib=p.contrib||[...new Set(p.credits.filter(([r,n])=>n.split(/,\s*/).i
 html+=`<div class="wrap">
   <header class="pj-head"><h1><span data-mirror="text">${esc(p.label||p.title.split('\n')[0])}</span>${!p.label&&p.title.includes('\n')?'\n'+esc(p.title.split('\n').slice(1).join(' ')):''}</h1>
     ${(p.awards&&p.awards.length)?`<div class="pj-awards" aria-label="Awards">${p.awards.map(w=>w.img?`<img src="${w.img}" alt="${esc(w.name)}" title="${esc(w.name)}">`:`<span class="pj-award-txt" title="${esc(w.name+(w.grade?' — '+w.grade:''))}"><b>${esc(w.name)}</b>${w.grade?`<small>${esc(w.grade)}</small>`:''}</span>`).join('')}</div>`:''}
+  </header>
+  <div class="pj-top">
     <dl class="pj-credits">
       <div><dt>Project Owner</dt><dd>${esc(owner)}</dd></div>
       ${IS_SAM?'<div><dt>Agency</dt><dd>SAM SEOUL</dd></div>':''}
       <div class="pj-contrib"><dt>Contributions</dt><dd>${contrib.split(/,\s*/).map(c=>`<span class="nowrap">${esc(c)}</span>`).join('<br>')}</dd></div>
     </dl>
-  </header>`;
+`;
 // body: first text = headline, second text = intro; after that short text = subheading, long = paragraph
 const BH=IS_BH&&!p.layoutIntro;
 let texts=BH?2:0, sub=null, row=[];
 const flush=()=>{ if(row.length){ html+=`<div class="pj-media">${row.join('')}</div>`; row=[]; } };
 const closeSub=()=>{ if(sub){ html+=`<section class="pj-sub"><h3>${esc(sub.h||'')}</h3><div class="pj-text">${esc(sub.p||'')}</div></section>`; sub=null; } };
-let introOpen=!BH; if(introOpen) html+='<section class="pj-intro">';
+let topOpen=true; const closeTop=()=>{ if(topOpen){ html+='</div>'; topOpen=false; } }; // credits (col 1) + slogan/body (col 2)
+let introOpen=!BH; if(introOpen) html+='<section class="pj-intro">'; else closeTop();
 for(const b of p.body){
   if(typeof b==='string'){
     texts++;
     if(texts===1){ html+=`<h2>${esc(b)}</h2>`; continue; }
-    if(texts===2){ html+=`<div class="pj-text">${esc(b)}</div></section>`; introOpen=false; continue; }
+    if(texts===2){ html+=`<div class="pj-text">${esc(b)}</div></section>`; introOpen=false; closeTop(); continue; }
     flush();
     if(BH){ closeSub(); sub=b.length<80?{h:b}:{p:b}; closeSub(); continue; }
     if(b.length<80){ closeSub(); sub={h:b}; } else { if(!sub) sub={}; sub.p=(sub.p?sub.p+'\n\n':'')+b; }
     continue;
   }
   if(introOpen && b[2]<20){ html+=`<div style="width:clamp(96px,13vw,180px)">${media(b).replace('<img','<img style="width:100%;display:block"')}</div>`; continue; }
-  if(introOpen){ html+='</section>'; introOpen=false; }
+  if(introOpen){ html+='</section>'; introOpen=false; } closeTop();
   closeSub();
   const cls=b[2]<20?'small':b[2]<22?'fifth':b[2]<30?'quarter':b[2]<40?'third':b[2]<60?'half':'';
   row.push(`<figure class="${cls}"><div class="box" style="aspect-ratio:${b[3]}">${media(b)}</div></figure>`);
 }
 if(introOpen) html+='</section>';
+closeTop();
 closeSub(); flush();
 html+=`<div class="pj-foot">
     <span></span>
