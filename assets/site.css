@@ -329,3 +329,64 @@ html.vfull-open .bar{opacity:0;pointer-events:none}
 
 /* dark mode: black-background thumbnails get a faint light glow fading in from all four edges, so they separate from the pure-black page */
 .card[data-slug="cjone"] .tilt-inner::after,.card[data-slug="gemini-symbol-animation"] .tilt-inner::after,.card[data-slug="grok-logo-animation"] .tilt-inner::after,.card[data-slug="furry-brands"] .tilt-inner::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 28px 2px var(--thumb-edge);pointer-events:none;z-index:3}
+
+/* ======================================================================
+   Home visual pass — section labels, type hierarchy, grid rhythm, nav
+   ====================================================================== */
+/* outer margins: desktop 32 / tablet 24 / phone 16 (home only; case pages keep their own) */
+body:not([data-page="project"]){--gutter:32px}
+@media (max-width:960px){body:not([data-page="project"]){--gutter:24px}}
+@media (max-width:720px){body:not([data-page="project"]){--gutter:16px}}
+
+/* one shared section label: WORK / ABOUT / CONTACT */
+.sec-label{margin:0;font-family:var(--f-body);font-size:14px;font-weight:500;line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-wrap:nowrap}
+.sec-label .sec-count{margin-left:8px;font-size:12px;font-weight:400;letter-spacing:.04em;color:var(--muted);font-variant-numeric:tabular-nums}
+.work{padding-block:72px 48px}
+.work-head{align-items:center;padding-bottom:16px;margin-bottom:24px}
+.work-head h2.sec-label{font-family:var(--f-body);font-size:14px;font-weight:500;letter-spacing:.06em;text-wrap:nowrap}
+
+/* grid: desktop 16 col gap / 32 row gap, phones 24 between works */
+.grid:not(.as-list){gap:32px 16px}
+@media (max-width:720px){.work{padding-block:56px 40px}.grid:not(.as-list){gap:24px}}
+
+/* About: same 3-col track as the work grid, so the body starts on column 2 */
+.about{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px;row-gap:24px;padding-block:72px 96px}
+.about .ab-body{grid-column:2 / -1}
+@media (max-width:960px){.about{grid-template-columns:minmax(0,1fr);row-gap:28px}.about .ab-body{grid-column:auto}}
+@media (max-width:720px){.about{padding-block:56px 72px}}
+.ab-lead{font-size:38px;font-weight:400;line-height:1.2;letter-spacing:-.02em;max-width:26ch}
+@media (max-width:720px){.ab-lead{font-size:30px}}
+
+/* Contact: label → email (read first) → socials → neon signature as the closing beat */
+.contact .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:24px;row-gap:0;padding-block:72px 40px}
+.contact h2.sec-label{grid-column:1 / -1;margin:0 0 28px;font-family:var(--f-body);font-size:14px;font-weight:500;line-height:1.3;letter-spacing:.06em;color:rgba(255,255,255,.62)}
+.contact .mail{justify-self:start;max-width:100%;font-size:36px;font-weight:500;line-height:1.15;letter-spacing:-.02em;border-bottom-width:2px;padding-bottom:6px}
+.contact .sns-row{justify-self:end}
+.big-role{grid-column:1 / -1;margin:128px 0 0}
+@media (min-width:721px){.big-role{width:min(100%,78.2vw)}}   /* text-pressure fits the word to this box → ≈170px type at 1440 */
+@media (max-width:720px){
+  .contact .wrap{grid-template-columns:minmax(0,1fr);padding-block:56px calc(env(safe-area-inset-bottom,0px) + 104px)}  /* clear of the bottom menu */
+  .contact h2.sec-label{margin-bottom:20px}
+  .contact .mail{font-size:26px;padding-bottom:4px}
+  .contact .sns-row{justify-self:start;margin-top:28px}
+  .big-role{margin-top:80px}
+}
+@media (min-width:721px){#work,#about,#contact{scroll-margin-top:76px}}  /* anchor jumps land below the top menu */
+
+/* Nav: 14/500 labels, clear active pill, denser frost, 44px touch targets on phones */
+.bar{height:44px;background:rgba(18,18,22,.4);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4)}
+.bar[data-tone="light"]{background:rgba(255,255,255,.62)}
+.bar-inner{padding-inline:5px}
+.items a{font-size:14px;font-weight:500;letter-spacing:0;height:34px;padding:0 14px;opacity:.88}
+.items a.is-active,.items a.on-pill{opacity:1}
+.items a.on-pill{color:#111318}
+.bar[data-tone="light"] .items a.on-pill{color:#fff}
+.burger{width:34px;height:34px}
+.bar.no-gl{background:rgba(18,18,22,.55);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4)}
+.bar.no-gl .items a.is-active{background:#fff;color:#111318}
+@media (max-width:720px){
+  .bar{height:54px}
+  .items a{height:44px;padding:0 16px}
+  .burger{width:44px;height:44px}
+}
+@media (max-width:400px){.items a{padding:0 14px}}

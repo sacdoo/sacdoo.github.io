@@ -54,7 +54,7 @@ void main(){
   float inside=clamp(-d/uBevel,0.,1.);float e=1.-inside;float bend=1.-sqrt(max(1.-e*e,0.)); // circular lens profile
   vec4 smp=refr(p/uZoom,n*bend*uRefract);
   float cov=smp.a; vec3 col=smp.rgb/max(cov,1e-3);
-  vec4 tint=mix(vec4(1.,1.,1.,.14),vec4(.04,.04,.06,.08),uDark);
+  vec4 tint=mix(vec4(1.,1.,1.,.7),vec4(.05,.05,.07,.52),uDark); // stronger frost so the labels stay crisp over any work
   col=mix(col,tint.rgb,tint.a);
   float l=dot(col,vec3(.299,.587,.114));col=mix(vec3(l),col,1.22);
   vec2 L=normalize(vec2(-.5,-1.));
@@ -70,8 +70,9 @@ void main(){
   float al=a*(cov+hh*(1.-cov));
   if(uIndOn>.001){
     vec2 c=uInd.xy;vec2 ib=uInd.zw*.5;
-    float pm=(1.-smoothstep(-.75,.75,sdRB(p-c,ib,min(ib.x,ib.y))))*uIndOn*.86*a;
-    rgb=rgb*(1.-pm)+vec3(pm); al=al*(1.-pm)+pm;
+    float pm=(1.-smoothstep(-.75,.75,sdRB(p-c,ib,min(ib.x,ib.y))))*uIndOn*.97*a;
+    vec3 pc=mix(vec3(.067,.075,.094),vec3(1.),uDark); // pill inverts: white over dark backdrops, ink over light ones
+    rgb=rgb*(1.-pm)+pc*pm; al=al*(1.-pm)+pm;
   }
   gl_FragColor=vec4(rgb,al);
 }`;
@@ -181,7 +182,8 @@ function renderGlass(dt){
   ind.on+=((target?1:0)-ind.on)*Math.min(1,dt*(reduce?60:7));
   const bc=r.left+r.width/2;
   for(const a of items){ const ir=a.getBoundingClientRect(); a.classList.toggle('on-pill', ind.on>.5 && Math.abs(ind.x-(ir.left+ir.width/2-bc))<ir.width*.35); }
-  const sp=Math.abs(ind.vx), iw=ind.w+Math.min(sp*.05,44), ih=(r.height-10)*(1-Math.min(sp*.0004,.14));
+  const ir0=(target||items[0]).getBoundingClientRect();
+  const sp=Math.abs(ind.vx), iw=ind.w+Math.min(sp*.05,44), ih=Math.min(r.height-8,ir0.height)*(1-Math.min(sp*.0004,.14));
 
   gl.viewport(0,0,w,h);
   gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,tex);
