@@ -15,7 +15,7 @@ window.PROJECTS = [
  "source": "na1",
  "client": "ATHLER",
  "owner": "ATHLER",
- "agency": "NA1",
+ "agency": "BIND",
  "year": "2026",
  "title": "ATHLER",
  "contrib": "Brand Strategy, Visual Identity, Motion Identity",
