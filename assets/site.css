@@ -346,8 +346,8 @@ body:not([data-page="project"]){--gutter:32px}
 .work-head h2.sec-label{font-family:var(--f-body);font-size:14px;font-weight:500;letter-spacing:.06em;text-wrap:nowrap}
 
 /* grid: desktop 16 col gap / 32 row gap, phones 24 between works */
-.grid:not(.as-list){gap:32px 16px}
-@media (max-width:720px){.work{padding-block:56px 40px}.grid:not(.as-list){gap:24px}}
+.grid:not(.as-list){gap:16px}   /* one gap for rows and columns */
+@media (max-width:720px){.work{padding-block:56px 40px}.grid:not(.as-list){gap:16px}}
 
 /* About: same 3-col track as the work grid, so the body starts on column 2 */
 .about{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px;row-gap:24px;padding-block:72px 96px}
