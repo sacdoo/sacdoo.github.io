@@ -449,4 +449,4 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
   .contact .wrap{grid-template-columns:minmax(0,1fr)}
   .contact .sns-row{justify-self:start;margin-top:28px}
 }
-@media (max-width:720px){.contact .mail{font-size:min(26px,5.6vw)}}
+@media (max-width:720px){.contact .mail{font-size:min(26px,5vw);white-space:nowrap}}
