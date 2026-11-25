@@ -465,3 +465,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* Case pages: pairs (2-up) stay side by side on phones; 3/4/5-up keep their phone reflow */
 @media (max-width:720px){.pj-media > figure.half{flex-basis:50%}}
+
+/* Case pages on phones: images and videos run edge to edge (text keeps its side margin) */
+@media (max-width:720px){body[data-page="project"] .pj-media{margin-inline:calc(-1 * var(--gutter))}}
