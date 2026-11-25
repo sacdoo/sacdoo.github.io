@@ -410,3 +410,23 @@ body:not([data-page="project"]){--gutter:32px}
 body[data-page="project"][data-bg="white"] .contact{background:#fff;color:var(--ink)}
 body[data-page="project"][data-bg="white"] .contact .mail{border-bottom-color:rgba(17,19,24,.25)}
 body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
+
+/* ======================================================================
+   Grtsk Variable (Adobe Fonts) — display type on chosen headings only
+   wght 627 · wdth 147 · slnt 0
+   ====================================================================== */
+:root{--f-grtsk:"grtsk-vf","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;--grtsk-vs:'wght' 627,'wdth' 147,'slnt' 0}
+.sec-label,.work-head h2.sec-label,.contact h2.sec-label,
+.pj-head h1,.pj-intro h2,.pj-sub h3,.ab-lead,.pj-foot .next{
+  font-family:var(--f-grtsk);font-weight:627;font-style:normal;font-variation-settings:var(--grtsk-vs);font-synthesis:none}
+/* home section labels at 3× (42px); the count stays a 12px note */
+.sec-label,.work-head h2.sec-label,.contact h2.sec-label{font-size:42px;line-height:1.05;letter-spacing:.02em}
+.sec-label .sec-count{font-family:var(--f-body);font-variation-settings:normal;vertical-align:baseline}
+@media (max-width:400px){.sec-label,.work-head h2.sec-label,.contact h2.sec-label{font-size:36px}}
+.pj-head h1{letter-spacing:-.02em;line-height:1;overflow-wrap:normal;word-break:keep-all}
+.pj-intro h2,.pj-sub h3{letter-spacing:-.01em;line-height:1.15}
+.ab-lead{letter-spacing:-.01em}
+.pj-foot .next{letter-spacing:-.01em}
+
+/* Brand Animator signature in Grtsk; text-pressure drives wdth/wght per letter */
+.big-role .tp{font-family:var(--f-grtsk);font-weight:627;letter-spacing:-.01em;font-variation-settings:'wdth' 147,'wght' 627,'slnt' 0}
