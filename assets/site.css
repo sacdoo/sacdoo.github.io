@@ -453,3 +453,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* Home section labels in mixed case: Work / About / Contact */
 .sec-label,.work-head h2.sec-label,.contact h2.sec-label{text-transform:none;letter-spacing:0}
+
+/* No horizontal divider lines between sections */
+.work-head,.about,.ab-cols,.pj-top,.pj-foot,.pj-credits,.pj-info,.pj-head .pj-credits{border-top:0;border-bottom:0}
