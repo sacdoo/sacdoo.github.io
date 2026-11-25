@@ -428,8 +428,8 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 .ab-lead{letter-spacing:-.01em}
 .pj-foot .next{letter-spacing:-.01em}
 
-/* Nav labels: Grtsk, white, on an always-dark frost (active pill stays white with ink text) */
-.items a{font-family:var(--f-grtsk);font-weight:627;font-variation-settings:var(--grtsk-vs);font-synthesis:none;color:#fff;letter-spacing:.01em}
+/* Nav labels: white, on an always-dark frost (active pill stays white with ink text) */
+.items a{color:#fff}
 .items a.on-pill,.bar[data-tone="light"] .items a.on-pill,.bar.no-gl .items a.is-active{color:#111318}
 .bar,.bar[data-tone="light"]{background:rgba(18,18,22,.45)}
 .burger{color:#fff}

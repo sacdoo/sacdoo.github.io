@@ -102,7 +102,7 @@ const xorigin=el=>{ const u=el.currentSrc||el.src; if(!u||el.crossOrigin!=null) 
 let cache=[];
 const docOrder=(a,b)=>a===b?0:(a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1;
 function collect(ox,oy,W,H){
-  const set=new Set(), step=22;
+  const set=new Set(), step=40;   // coarse hit-test grid: elementsFromPoint is the main scroll cost
   for(let y=Math.max(1,oy+4);y<Math.min(innerHeight,oy+H);y+=step)
     for(let x=Math.max(1,ox+4);x<Math.min(innerWidth,ox+W);x+=step)
       for(const el of document.elementsFromPoint(x,y)){ if(el===document.documentElement||el===document.body||bar.contains(el)) continue; set.add(el); }
@@ -133,7 +133,8 @@ function drawMirror(r){
   const pw=Math.round(W*s), ph=Math.round(H*s);
   if(mirror.width!==pw||mirror.height!==ph){mirror.width=pw;mirror.height=ph;}
   const ox=r.left-P, oy=r.top-P;
-  if(frameN%3===0||!cache.length) cache=collect(ox,oy,W,H);
+  if(frameN%6===0||!cache.length) cache=collect(ox,oy,W,H);
+  liveMedia=false;
   mctx.setTransform(s,0,0,s,-ox*s,-oy*s);
   mctx.globalAlpha=1; mctx.fillStyle=getComputedStyle(document.body).backgroundColor; mctx.fillRect(ox,oy,W,H);
   for(const el of cache){
@@ -147,8 +148,8 @@ function drawMirror(r){
     const tag=el.tagName;
     if(tag==='IFRAME') hole(b);
     else if(tag==='IMG'){ if(IS_FILE||xorigin(el)) hole(b); else if(el.complete&&el.naturalWidth) cover(el,el.naturalWidth,el.naturalHeight,b); }
-    else if(tag==='VIDEO'){ if(IS_FILE||xorigin(el)) hole(b); else if(el.readyState>=2&&el.videoWidth) cover(el,el.videoWidth,el.videoHeight,b); }
-    else if(tag==='CANVAS'){ if(el.width) mctx.drawImage(el,b.left,b.top,b.width,b.height); }
+    else if(tag==='VIDEO'){ if(!el.paused) liveMedia=true; if(IS_FILE||xorigin(el)) hole(b); else if(el.readyState>=2&&el.videoWidth) cover(el,el.videoWidth,el.videoHeight,b); }
+    else if(tag==='CANVAS'){ if(el.width){ liveMedia=true; mctx.drawImage(el,b.left,b.top,b.width,b.height); } }
     for(const c of el.childNodes) if(c.nodeType===3&&c.textContent.trim()) drawText(c,cs,oy,H);
   }
   mctx.globalAlpha=1;
@@ -162,14 +163,14 @@ function sampleTone(){
 
 /* Indicator spring */
 const ind={x:0,w:0,vx:0,vw:0,on:0,init:false};
-let dark=1, frameN=0, lastTone='dark';
+let dark=1, frameN=0, lastTone='dark', liveMedia=false;
 
 function renderGlass(dt){
   const r=bar.getBoundingClientRect();
   const w=Math.round(r.width*DPR), h=Math.round(r.height*DPR);
   if(glc.width!==w||glc.height!==h){glc.width=w;glc.height=h;}
   drawMirror(r);
-  if(frameN%6===0){ let lum=.3; try{ lum=sampleTone(); }catch(e){} const tone='dark'; void lum; /* menu always uses the dark frost so its white labels read everywhere */ if(tone!==lastTone){lastTone=tone;bar.dataset.tone=tone;} }
+  if(bar.dataset.tone!=='dark') bar.dataset.tone='dark';   // fixed dark frost (white labels); no per-frame pixel readback
   dark+=((lastTone==='dark'?1:0)-dark)*Math.min(1,dt*6);
 
   const target=bar.classList.contains('is-collapsed')?null:activeEl; // collapsed bar: no pill
@@ -195,10 +196,17 @@ function renderGlass(dt){
   gl.uniform2f(U.uMouse,mouse.x-(r.left+r.width/2),mouse.y-(r.top+r.height/2));
   gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
 }
-let last=performance.now();
+/* Only repaint when something behind or on the bar can have changed: scrolling, pointer, resize, image loads,
+   the pill still moving, or a playing video / canvas under the bar (then at half rate). Idle pages cost ~nothing. */
+let last=performance.now(), idle=0;
+const wake=()=>{ idle=0; };
+['scroll','resize','pointermove','pointerdown','keydown','hashchange'].forEach(t=>addEventListener(t,wake,{passive:true}));
+document.addEventListener('load',wake,true);
 function frame(now){
   const dt=Math.min(.05,(now-last)/1000); last=now; frameN++;
-  if(gl) renderGlass(dt);
+  const moving=(ind.on>.02&&ind.on<.98)||Math.abs(ind.vx)>.5||Math.abs(ind.vw)>.5;
+  if(gl&&(idle<40||moving||(liveMedia&&frameN%2===0))) renderGlass(dt);
+  idle++;
   requestAnimationFrame(frame);
 }
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>requestAnimationFrame(frame));
