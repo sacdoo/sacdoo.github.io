@@ -456,3 +456,9 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* No horizontal divider lines between sections */
 .work-head,.about,.ab-cols,.pj-top,.pj-foot,.pj-credits,.pj-info,.pj-head .pj-credits{border-top:0;border-bottom:0}
+/* spacing retuned for no dividers: the padding that used to sit between text and line is folded into one gap */
+.work-head{padding-bottom:0;margin-bottom:32px}
+.ab-cols{padding-top:16px}
+.pj-head{padding-bottom:40px}
+.pj-top{padding-top:0}
+.pj-foot{padding-top:32px}
