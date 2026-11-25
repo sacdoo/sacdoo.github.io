@@ -423,7 +423,7 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 .sec-label,.work-head h2.sec-label,.contact h2.sec-label{font-size:42px;line-height:1.05;letter-spacing:.02em}
 .sec-label .sec-count{font-family:var(--f-body);font-variation-settings:normal;vertical-align:baseline}
 @media (max-width:400px){.sec-label,.work-head h2.sec-label,.contact h2.sec-label{font-size:36px}}
-.pj-head h1{letter-spacing:-.02em;line-height:1;overflow-wrap:normal;word-break:keep-all}
+.pj-head h1{min-width:0;font-size:clamp(28px,7.4vw,120px);letter-spacing:-.02em;line-height:1;overflow-wrap:normal;word-break:keep-all}   /* Grtsk is wide: scale with the viewport so one-word names (Peaceminusone) fit on phones */
 .pj-intro h2,.pj-sub h3{letter-spacing:-.01em;line-height:1.15}
 .ab-lead{letter-spacing:-.01em}
 .pj-foot .next{letter-spacing:-.01em}
