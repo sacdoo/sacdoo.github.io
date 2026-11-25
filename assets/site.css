@@ -443,7 +443,7 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
   body:not([data-page="project"]) .contact .sns-row{grid-column:3;grid-row:1;justify-self:end}
   body[data-page="project"] .contact .wrap{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}
   body[data-page="project"] .contact .mail{grid-column:2;grid-row:1}
-  body[data-page="project"] .contact .sns-row{grid-column:2;grid-row:1;justify-self:end}
+  body[data-page="project"] .contact .sns-row{grid-column:2;grid-row:2;justify-self:start;margin-top:24px}   /* the Grtsk email fills the half, so socials sit under it */
 }
 @media (min-width:721px) and (max-width:960px){
   .contact .wrap{grid-template-columns:minmax(0,1fr)}
