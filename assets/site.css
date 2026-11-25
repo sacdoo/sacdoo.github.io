@@ -450,3 +450,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
   .contact .sns-row{justify-self:start;margin-top:28px}
 }
 @media (max-width:720px){.contact .mail{font-size:min(26px,5vw);white-space:nowrap}}
+
+/* Home section labels in mixed case: Work / About / Contact */
+.sec-label,.work-head h2.sec-label,.contact h2.sec-label{text-transform:none;letter-spacing:0}
