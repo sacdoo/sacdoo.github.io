@@ -6,7 +6,7 @@
    (narrow + light → full), and a finger dragged across the word acts like the desktop cursor. */
 (function(){
   const host=document.querySelector('.big-role .tp'); if(!host) return;
-  const TEXT=host.dataset.text||host.textContent.trim(); host.dataset.text=TEXT;
+  const TEXT=(host.dataset.text||host.textContent.trim()).toUpperCase(); host.dataset.text=TEXT;   // all caps: BRAND ANIMATOR
   const IDLE={w:100,g:700}, W=[45,151], G=[200,1000];   // far letters: narrow+light, near the pointer: wide+heavy
   const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const narrowMQ=matchMedia('(max-width: 720px)');
@@ -27,10 +27,11 @@
     lines=parts.map(t=>{ const ln=document.createElement('span'); ln.className='tp-line'; host.appendChild(ln);
       const chars=[...t].map(ch=>{ const s=document.createElement('span'); s.textContent=ch===' '?' ':ch; ln.appendChild(s); return {el:s,w:IDLE.w,g:IDLE.g}; });
       chars.forEach(apply); return {el:ln,chars,idle:0,s:1}; });
-    // one font size for all lines, fitted so the longest line fills the column
-    const col=host.parentElement.clientWidth;
-    const widest=Math.max(...lines.map(l=>l.el.offsetWidth));
-    host.style.fontSize=(parseFloat(getComputedStyle(host).fontSize)*col/widest)+'px';
+    // every line fitted to the column on its own, so the shorter "BRAND" grows to the same width as "ANIMATOR"
+    const col=host.parentElement.clientWidth, base=parseFloat(getComputedStyle(host).fontSize);
+    const wOf=el=>el.getBoundingClientRect().width;   // fractional width (offsetWidth rounds, which overshoots once scaled up)
+    lines.forEach(l=>{ l.el.style.fontSize=''; l.el.style.fontSize=(base*col/wOf(l.el))+'px';
+      l.el.style.fontSize=(parseFloat(l.el.style.fontSize)*col/wOf(l.el))+'px'; });   // second pass corrects per-glyph rounding
     lines.forEach(l=>{ l.idle=l.el.offsetWidth; });
   }
   // hold each line at its idle width (cursor/drag effect); in the touch scroll-unfold the word grows freely.
