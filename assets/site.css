@@ -463,10 +463,5 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 .pj-top{padding-top:0}
 .pj-foot{padding-top:32px}
 
-/* Case pages: media placed side by side on desktop stay side by side on phones */
-@media (max-width:720px){
-  .pj-media > figure.half{flex-basis:50%}
-  .pj-media > figure.third{flex-basis:33.333%}
-  .pj-media > figure.quarter{flex-basis:25%}
-  .pj-media > figure.fifth{flex-basis:20%}
-}
+/* Case pages: pairs (2-up) stay side by side on phones; 3/4/5-up keep their phone reflow */
+@media (max-width:720px){.pj-media > figure.half{flex-basis:50%}}
