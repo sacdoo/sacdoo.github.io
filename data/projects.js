@@ -168,7 +168,7 @@ window.PROJECTS = [
   credits:[['Project owner','CJ OliveNetworks'],['Executive director','이해승'],['Creative director','전병선'],['Concept','배금조, 송주리'],['Designer','박윤서, 윤현동, 신봉천, 김진호'],['Motion Graphic','양희수, 엄태은']]
 },
 {
-  slug:'kodex-brand', title:'Kodex', client:'Samsung Asset Management 삼성자산운용', year:'2023',
+  slug:'kodex-brand', title:'Kodex ETF', client:'Samsung Asset Management 삼성자산운용', year:'2023',
   awards:[{name:'iF Design Award 2024 — Winner, Communication Branding', img:'assets/awards/samseoul-kodex-if.png'}],
   bg:'white',
   type:'Rebranding',

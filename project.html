@@ -52,7 +52,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const slug=new URLSearchParams(location.search).get('p');
 const i=Math.max(0,PROJECTS.findIndex(p=>p.slug===slug)); const p=PROJECTS[i]; const next=PROJECTS[(i+1)%PROJECTS.length];
 // case-page titles in mixed case: ALL-CAPS words → Capitalized (ATHLER → Athler); keeps short acronyms (CJ, SK), ETF and words with digits (A2O)
-const KEEP_CAPS=new Set(['ETF']);
+const KEEP_CAPS=new Set(['ETF','ZIC','ONE']);   // brand marks that stay upper-case (SK enmove ZIC, CJ ONE)
 const tc=t=>t.replace(/[A-Za-z0-9]+/g,w=>(w.length>2&&w===w.toUpperCase()&&/^[A-Z]+$/.test(w)&&!KEEP_CAPS.has(w))?w[0]+w.slice(1).toLowerCase():w);
 document.title=`${tc((p.label||p.title).replace(/\n/g,' '))} - SAC`;
 document.body.dataset.bg=p.bg||'white';
