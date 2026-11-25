@@ -51,7 +51,10 @@ const ME='엄태은';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const slug=new URLSearchParams(location.search).get('p');
 const i=Math.max(0,PROJECTS.findIndex(p=>p.slug===slug)); const p=PROJECTS[i]; const next=PROJECTS[(i+1)%PROJECTS.length];
-document.title=`${(p.label||p.title).replace(/\n/g,' ')} - SAC`;
+// case-page titles in mixed case: ALL-CAPS words → Capitalized (ATHLER → Athler); keeps short acronyms (CJ, SK), ETF and words with digits (A2O)
+const KEEP_CAPS=new Set(['ETF']);
+const tc=t=>t.replace(/[A-Za-z0-9]+/g,w=>(w.length>2&&w===w.toUpperCase()&&/^[A-Z]+$/.test(w)&&!KEEP_CAPS.has(w))?w[0]+w.slice(1).toLowerCase():w);
+document.title=`${tc((p.label||p.title).replace(/\n/g,' '))} - SAC`;
 document.body.dataset.bg=p.bg||'white';
 if(p.seamless) document.body.dataset.seamless=''; // Behance board images read as one continuous canvas
 
@@ -74,7 +77,7 @@ const IS_BH=p.source==='behance', IS_SAM=!p.source;
 const owner=p.owner||(p.credits.find(([r])=>/project owner/i.test(r))||[,p.client])[1];
 const contrib=p.contrib||[...new Set(p.credits.filter(([r,n])=>n.split(/,\s*/).includes(ME)).map(([r])=>r.replace(/\b\w/g,c=>c.toUpperCase()).replace(/^Motion Graphic$/,'Motion Graphics')))].join(', ');
 html+=`<div class="wrap">
-  <header class="pj-head"><h1><span data-mirror="text">${esc(p.label||p.title.split('\n')[0])}</span>${!p.label&&p.title.includes('\n')?'\n'+esc(p.title.split('\n').slice(1).join(' ')):''}</h1>
+  <header class="pj-head"><h1><span data-mirror="text">${esc(tc(p.label||p.title.split('\n')[0]))}</span>${!p.label&&p.title.includes('\n')?'\n'+esc(tc(p.title.split('\n').slice(1).join(' '))):''}</h1>
     ${(p.awards&&p.awards.length)?`<div class="pj-awards" aria-label="Awards">${p.awards.map(w=>w.img?`<img src="${w.img}" alt="${esc(w.name)}" title="${esc(w.name)}">`:`<span class="pj-award-txt" title="${esc(w.name+(w.grade?' — '+w.grade:''))}"><b>${esc(w.name)}</b>${w.grade?`<small>${esc(w.grade)}</small>`:''}</span>`).join('')}</div>`:''}
   </header>
   <div class="pj-top">
@@ -112,7 +115,7 @@ closeTop();
 closeSub(); flush();
 html+=`<div class="pj-foot">
     <span></span>
-    <a class="next" href="project.html?p=${encodeURIComponent(next.slug)}">Next — ${esc(next.label||next.title.replace(/\n/g,' '))} →</a>
+    <a class="next" href="project.html?p=${encodeURIComponent(next.slug)}">Next — ${esc(tc(next.label||next.title.replace(/\n/g,' ')))} →</a>
   </div>
 </div>`;
 document.getElementById('project').innerHTML=html;
