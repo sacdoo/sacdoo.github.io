@@ -169,7 +169,7 @@ function renderGlass(dt){
   const w=Math.round(r.width*DPR), h=Math.round(r.height*DPR);
   if(glc.width!==w||glc.height!==h){glc.width=w;glc.height=h;}
   drawMirror(r);
-  if(frameN%6===0){ let lum=.3; try{ lum=sampleTone(); }catch(e){} const tone=lum<.55?'dark':'light'; if(tone!==lastTone){lastTone=tone;bar.dataset.tone=tone;} }
+  if(frameN%6===0){ let lum=.3; try{ lum=sampleTone(); }catch(e){} const tone='dark'; void lum; /* menu always uses the dark frost so its white labels read everywhere */ if(tone!==lastTone){lastTone=tone;bar.dataset.tone=tone;} }
   dark+=((lastTone==='dark'?1:0)-dark)*Math.min(1,dt*6);
 
   const target=bar.classList.contains('is-collapsed')?null:activeEl; // collapsed bar: no pill

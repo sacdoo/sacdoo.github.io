@@ -1,15 +1,15 @@
 /* Text Pressure (after React Bits "TextPressure"), vanilla JS.
    Hovering (or touch-dragging on phones) the big "Brand Animator": each letter's width (wdth) and
-   weight (wght) follow pointer distance on Grtsk VF (wdth 50–200, wght 100–700). Each line's overall width is held constant.
+   weight (wght) follow pointer distance on Roboto Flex. Each line's overall width is held constant.
    Desktop: one line fitted to the column. Narrow screens (≤720px): two lines, "Brand" / "Animator". */
 (function(){
   const host=document.querySelector('.big-role .tp'); if(!host) return;
   const TEXT=host.dataset.text||host.textContent.trim(); host.dataset.text=TEXT;
-  const IDLE={w:147,g:627}, W=[50,200], G=[100,700];   // far letters: narrow+light, near the pointer: wide+heavy
+  const IDLE={w:100,g:700}, W=[45,151], G=[200,1000];   // far letters: narrow+light, near the pointer: wide+heavy
   const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const narrowMQ=matchMedia('(max-width: 720px)');
   let lines=[], mx=0,my=0, active=false, raf=0, mode='';
-  const apply=c=>{ c.el.style.fontVariationSettings=`'wdth' ${c.w.toFixed(1)},'wght' ${c.g.toFixed(0)},'slnt' 0`; };
+  const apply=c=>{ c.el.style.fontVariationSettings=`'wdth' ${c.w.toFixed(1)},'wght' ${c.g.toFixed(0)},'opsz' 144`; };
   function build(){
     mode=narrowMQ.matches?'two':'one';
     const parts=mode==='two'?TEXT.split(' '):[TEXT];
@@ -52,8 +52,6 @@
     zone.addEventListener('pointerup',e=>{ if(e.pointerType!=='mouse') off(); });
     zone.addEventListener('pointercancel',off);
   }
-  const F=document.fonts;   // wait for the Adobe kit's Grtsk before measuring, so the fit uses the real glyphs
-  (F?Promise.race([F.load("627 100px 'grtsk-vf'").then(()=>F.ready),new Promise(r=>setTimeout(r,3000))]):Promise.resolve()).then(start);
-  if(F) F.addEventListener('loadingdone',e=>{ if(lines.length&&[...(e.fontfaces||[])].some(f=>/grtsk/i.test(f.family))){ build(); hold(); } });
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(start);
   let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ active=false; build(); hold(); },120); });
 })();

@@ -428,5 +428,25 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 .ab-lead{letter-spacing:-.01em}
 .pj-foot .next{letter-spacing:-.01em}
 
-/* Brand Animator signature in Grtsk; text-pressure drives wdth/wght per letter */
-.big-role .tp{font-family:var(--f-grtsk);font-weight:627;letter-spacing:-.01em;font-variation-settings:'wdth' 147,'wght' 627,'slnt' 0}
+/* Nav labels: Grtsk, white, on an always-dark frost (active pill stays white with ink text) */
+.items a{font-family:var(--f-grtsk);font-weight:627;font-variation-settings:var(--grtsk-vs);font-synthesis:none;color:#fff;letter-spacing:.01em}
+.items a.on-pill,.bar[data-tone="light"] .items a.on-pill,.bar.no-gl .items a.is-active{color:#111318}
+.bar,.bar[data-tone="light"]{background:rgba(18,18,22,.45)}
+.burger{color:#fff}
+
+/* Contact: email in Grtsk, starting on the 2nd column (home: same 3-col track as Work/About; case pages: right half) */
+.contact .mail{font-family:var(--f-grtsk);font-weight:627;font-variation-settings:var(--grtsk-vs);font-synthesis:none;letter-spacing:0}
+@media (min-width:961px){
+  body:not([data-page="project"]) .contact .wrap{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px;align-items:center}
+  body:not([data-page="project"]) .contact h2.sec-label{grid-column:1;grid-row:1;margin:0}
+  body:not([data-page="project"]) .contact .mail{grid-column:2 / -1;grid-row:1}
+  body:not([data-page="project"]) .contact .sns-row{grid-column:3;grid-row:1;justify-self:end}
+  body[data-page="project"] .contact .wrap{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}
+  body[data-page="project"] .contact .mail{grid-column:2;grid-row:1}
+  body[data-page="project"] .contact .sns-row{grid-column:2;grid-row:1;justify-self:end}
+}
+@media (min-width:721px) and (max-width:960px){
+  .contact .wrap{grid-template-columns:minmax(0,1fr)}
+  .contact .sns-row{justify-self:start;margin-top:28px}
+}
+@media (max-width:720px){.contact .mail{font-size:min(26px,5.6vw)}}
