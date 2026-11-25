@@ -471,3 +471,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* Brand Animator signature spans the full width again (no empty space on the right) */
 @media (min-width:721px){.big-role{width:100%}}
+
+/* touch devices: horizontal finger drags drive the signature, vertical swipes still scroll the page */
+@media (hover: none){.big-role{touch-action:pan-y;overflow-x:clip}}
