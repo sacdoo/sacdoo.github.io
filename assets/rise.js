@@ -14,14 +14,15 @@
         SHRINK=.1;   // slight scale-down at the edges
   const cards=[...grid.querySelectorAll('a.card')], vis=new Set();
 
-  /* Top of the page: the first thumbnail peeks over the hero video (under the "Scroll" cue), then settles into
-     the stack as you scroll. PEEK_AT = where its tilted top edge sits on screen at scroll 0 (share of height). */
-  const PEEK_AT=.87;
-  function peekOffset(h,hh,top0){   // px to lift card 1 at scroll 0 so its projected top edge lands at PEEK_AT·h
+  /* Top of the page: the first thumbnail peeks over the hero video, its tilted top edge just below the
+     "Scroll" arrow, then settles into the stack as you scroll. */
+  const cue=document.querySelector('.scroll-cue');
+  const peekTarget=h=>{ if(!cue) return h*.9; let t=0,e=cue; while(e){ t+=e.offsetTop; e=e.offsetParent; } return t+cue.offsetHeight+10; };   // just below the arrow
+  function peekOffset(h,hh,top0){   // px to lift card 1 at scroll 0 so its projected top edge lands just below the Scroll arrow
     const mid=h/2, D=mid+hh/2, cy=top0+hh/2, raw=(cy-mid)/D, x=Math.min(1,Math.abs(raw)), sg=Math.sign(raw)||1;
     const k=Math.max(0,x-FLAT)/(1-FLAT), ty=sg*(x/(1+PULL*x)-x)*D, a=sg*Math.pow(k,CURVE)*MAX*Math.PI/180, sc=1-SHRINK*k;
     const y=-hh/2*sc, f=900/(900-y*Math.sin(a)), visTop=cy+ty+y*Math.cos(a)*f;
-    return Math.max(0,visTop-PEEK_AT*h);
+    return Math.max(0,visTop-peekTarget(h));
   }
   const pageTop=c=>{ let t=0,e=c; while(e){ t+=e.offsetTop; e=e.offsetParent; } return t; };
 
