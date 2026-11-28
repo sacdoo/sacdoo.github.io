@@ -6,6 +6,7 @@
   if(matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const grid=document.getElementById('grid'); if(!grid) return;
+  const about=document.querySelector('#about .ab-lead')||document.getElementById('about');
   const MAX=72,      // tilt at the screen edge (deg)
         CURVE=1.15,  // how quickly tilt builds outside the flat zone
         FLAT=.14,    // share of the distance to the edge where the centre card stays flat
@@ -19,6 +20,10 @@
     raf=0;
     if(grid.classList.contains('as-list')){ cards.forEach(c=>{ c.style.transform=''; c.style.zIndex=''; c._tf=c._z=''; c._rx=null; }); return; }
     const h=innerHeight, mid=h/2, list=[...vis], tops=new Map();
+    // hand-off to About: once the About copy crosses the middle of the screen, the stack is pushed up and out
+    // (lower cards travel further, so they pile into the ones above); scrolling back slides them in again
+    const ab=about&&about.getBoundingClientRect().top, push=ab==null?0:Math.min(1,Math.max(0,(mid-ab)/(h*.55)));
+    const pe=push*push*(3-2*push);
     // read everything first, then write: interleaving rect reads with transform writes forced a style
     // recalculation per card per frame
     const pos=list.map(c=>{ const op=c.offsetParent; if(!op) return null;
@@ -29,10 +34,17 @@
       const u=Math.max(-1,Math.min(1,raw));
       const k=Math.max(0,Math.abs(u)-FLAT)/(1-FLAT), s=Math.sign(u);
       // smooth, monotonic pull toward the centre: every card keeps moving, slowing gradually toward the edges
-      const D=mid+p.hh/2, x=Math.abs(raw), ty=Math.sign(raw)*(x/(1+PULL*x)-x)*D;
-      const a=s*Math.pow(k,CURVE)*MAX, sc=1-SHRINK*k;
+      const D=mid+p.hh/2, x=Math.abs(raw);
+      let ty=Math.sign(raw)*(x/(1+PULL*x)-x)*D;
+      if(pe>0) ty-=pe*h*(.55+.45*Math.max(0,Math.min(1,(p.cy/h))));     // push-up for the About hand-off
+      // tilt: from the layout position normally; while being pushed, from where the card actually is on screen
+      // (cards heading for the top take on the top cards' lean), blended by the push amount
+      const ab0=s*Math.pow(k,CURVE)*MAX;
+      const uv=Math.max(-1,Math.min(1,(p.cy+ty-mid)/(mid+p.hh/2))), kv=Math.max(0,Math.abs(uv)-FLAT)/(1-FLAT);
+      const av=Math.sign(uv)*Math.pow(kv,CURVE)*MAX, kk=k+(kv-k)*pe;
+      const a=ab0+(av-ab0)*pe, sc=1-SHRINK*kk;
       const tf=`translateY(${ty.toFixed(1)}px) perspective(900px) rotateX(${a.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
-      const z=k<.001?'3':String(2-Math.round(k*2));              // centre card above its neighbours
+      const z=kk<.001?'3':String(2-Math.round(kk*2));            // centre card above its neighbours
       c._rx={ty,a,sc};                                              // glass.js mirrors the card with the same 3D shape
       if(c._tf!==tf){ c.style.transform=tf; c._tf=tf; }
       if(c._z!==z){ c.style.zIndex=z; c._z=z; }
