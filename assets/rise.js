@@ -37,13 +37,14 @@
     const gen=()=>{
       const c0=cards[0]; if(!c0) return;
       const h=innerHeight, hh=c0.offsetHeight, key=h+'x'+hh; if(key===lastKey||!hh) return; lastKey=key;
-      const mid=h/2, D=mid+hh/2, N=48; let kf='';
+      const mid=h/2, D=mid+hh/2, N=48; let kf='', kz='';
       for(let i=0;i<=N;i++){
         const raw=1-2*i/N, x=Math.abs(raw), sg=Math.sign(raw);          // view() cover range: card top at bottom edge → bottom at top edge
         const k=Math.max(0,x-FLAT)/(1-FLAT);
         const ty=sg*(x/(1+PULL*x)-x)*D, a=sg*Math.pow(k,CURVE)*MAX, sc=1-SHRINK*k;
         const z=k<.001?3:2-Math.round(k*2);
-        kf+=`${(i/N*100).toFixed(3)}%{transform:translateY(${ty.toFixed(1)}px) perspective(900px) rotateX(${a.toFixed(2)}deg) scale(${sc.toFixed(3)});z-index:${z}}`;
+        kf+=`${(i/N*100).toFixed(3)}%{transform:translateY(${ty.toFixed(1)}px) perspective(900px) rotateX(${a.toFixed(2)}deg) scale(${sc.toFixed(3)})}`;
+        kz+=`${(i/N*100).toFixed(3)}%{z-index:${z}}`;
       }
       let push='';
       if(SCOPE&&about){   // About hand-off: the whole stack is pushed up once the About copy passes the middle of the screen
@@ -58,9 +59,11 @@
       // pull back into its own progress — cards crept toward the screen edge and piled up / shimmered there.
       const P=peekOffset(h,hh,pageTop(c0)), R=Math.max(1,Math.round(pageTop(c0)-h*.25));
       const peek=P>0?`@keyframes rise-peek{from{transform:translateY(${(-P).toFixed(0)}px)}to{transform:none}}
-        #grid:not(.as-list) a.card:first-child{animation:rise-peek linear both;animation-timing-function:cubic-bezier(.3,0,.4,1);animation-timeline:scroll(root block);animation-range:0px ${R}px}`:'';
-      st.textContent=`@keyframes rise-stack{${kf}}${peek}
-        #grid:not(.as-list) a.card{position:relative;view-timeline:--rise-card block;will-change:auto;transform:none}
+        #grid:not(.as-list) a.card:first-child{animation:rise-z linear both,rise-peek cubic-bezier(.3,0,.4,1) both;animation-timeline:--rise-card,scroll(root block);animation-range:cover 0% cover 100%,0px ${R}px}`:'';
+      // stacking order lives on the card (z-index only, so no Safari feedback): the peek animation turns card 1
+      // into its own stacking context, which trapped the inner z-index and put a selected ATHLER under Kbank
+      st.textContent=`@keyframes rise-stack{${kf}}@keyframes rise-z{${kz}}${peek}
+        #grid:not(.as-list) a.card{position:relative;view-timeline:--rise-card block;will-change:auto;transform:none;animation:rise-z linear both;animation-timeline:--rise-card;animation-range:cover 0% cover 100%}
         #grid:not(.as-list) a.card > .tilt{animation:rise-stack linear both;animation-timeline:--rise-card;animation-range:cover 0% cover 100%;will-change:transform}
         ${push}`;
     };
