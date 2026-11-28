@@ -13,6 +13,44 @@
         PULL=.65,    // compression strength: visual distance = d/(1+PULL·d) → smooth, always-moving tighter stacking
         SHRINK=.1;   // slight scale-down at the edges
   const cards=[...grid.querySelectorAll('a.card')], vis=new Set();
+
+  /* Preferred path: CSS scroll-driven animations. The browser evaluates the stack on the compositor in step
+     with the scroll, so fast flings no longer leave cards a frame behind (the JS version lagged by tens of px
+     per frame once cards were pulled toward the centre, which read as ghosting). Keyframes sample the same
+     curve as the JS fallback below; they are regenerated when the viewport height or card size changes. */
+  if(CSS.supports('animation-timeline: view()')){
+    const st=document.createElement('style'); st.id='rise-sda'; document.head.appendChild(st);
+    const SCOPE=CSS.supports('timeline-scope: --a');
+    let lastKey='';
+    const gen=()=>{
+      const c0=cards[0]; if(!c0) return;
+      const h=innerHeight, hh=c0.offsetHeight, key=h+'x'+hh; if(key===lastKey||!hh) return; lastKey=key;
+      const mid=h/2, D=mid+hh/2, N=48; let kf='';
+      for(let i=0;i<=N;i++){
+        const raw=1-2*i/N, x=Math.abs(raw), sg=Math.sign(raw);          // view() cover range: card top at bottom edge → bottom at top edge
+        const k=Math.max(0,x-FLAT)/(1-FLAT);
+        const ty=sg*(x/(1+PULL*x)-x)*D, a=sg*Math.pow(k,CURVE)*MAX, sc=1-SHRINK*k;
+        const z=k<.001?3:2-Math.round(k*2);
+        kf+=`${(i/N*100).toFixed(3)}%{transform:translateY(${ty.toFixed(1)}px) perspective(900px) rotateX(${a.toFixed(2)}deg) scale(${sc.toFixed(3)});z-index:${z}}`;
+      }
+      let push='';
+      if(SCOPE&&about){   // About hand-off: the whole stack is pushed up once the About copy passes the middle of the screen
+        const eh=about.offsetHeight, p0=(h/2)/(h+eh)*100, p1=Math.min(100,(1.05*h)/(h+eh)*100);
+        push=`@keyframes rise-push{from{transform:none}to{transform:translateY(${(-1.05*h).toFixed(0)}px)}}
+          body{timeline-scope:--rise-about}
+          #about .ab-lead{view-timeline-name:--rise-about}
+          #grid:not(.as-list){animation:rise-push linear both;animation-timing-function:cubic-bezier(.45,0,.55,1);animation-timeline:--rise-about;animation-range:cover ${p0.toFixed(2)}% cover ${p1.toFixed(2)}%}`;
+      }
+      st.textContent=`@keyframes rise-stack{${kf}}
+        #grid:not(.as-list) a.card{position:relative;animation:rise-stack linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+        ${push}`;
+    };
+    gen(); addEventListener('resize',gen); addEventListener('load',gen);
+    if(window.ResizeObserver&&cards[0]) new ResizeObserver(gen).observe(cards[0]);
+    return;
+  }
+
+  /* Fallback (browsers without scroll-driven animations): the same stack computed per frame in JS. */
   const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) vis.add(e.target); else { vis.delete(e.target); e.target.style.transform=''; e.target.style.zIndex=''; e.target._tf=e.target._z=''; e.target._rx=null; } }); kick(); },{rootMargin:'60% 0px'});
   cards.forEach(c=>io.observe(c));
   let raf=0;
