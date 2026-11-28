@@ -1,7 +1,7 @@
 /* Text Pressure (after React Bits "TextPressure"), vanilla JS.
    Hovering (or touch-dragging on phones) the big "Brand Animator": each letter's width (wdth) and
    weight (wght) follow pointer distance on Roboto Flex. Each line's overall width is held constant.
-   Desktop: one line fitted to the column. Narrow screens (≤720px): two lines, "SAC" / "STUDIO". Both ends of every line stay fixed.
+   Desktop: one line fitted to the column. One line on phones too. Both ends stay fixed.
    Touch devices (no hover): the letters unfold one after another as the footer scrolls into view
    (narrow + light → full), and a finger dragged across the word acts like the desktop cursor. */
 (function(){
@@ -21,8 +21,8 @@
   }
   const apply=c=>{ c.el.style.fontVariationSettings=`'wdth' ${c.w.toFixed(1)},'wght' ${c.g.toFixed(0)},'opsz' 144`; };
   function build(){
-    mode=narrowMQ.matches?'two':'one';
-    const parts=mode==='two'?TEXT.split(' '):[TEXT];
+    mode='one';   // one line on every screen size (phones too)
+    const parts=[TEXT];
     host.textContent=''; host.style.fontSize='';
     lines=parts.map(t=>{ const ln=document.createElement('span'); ln.className='tp-line'; host.appendChild(ln);
       const chars=[...t].map(ch=>{ const s=document.createElement('span'); s.textContent=ch===' '?' ':ch; ln.appendChild(s); return {el:s,w:IDLE.w,g:IDLE.g}; });
