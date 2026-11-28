@@ -3,6 +3,10 @@
 (() => {
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
+const TOUCH_UI = !matchMedia('(hover: hover) and (pointer: fine)').matches;
+// the mirror is refracted + blurred, so it doesn't need retina pixels: uploading it to the GPU every frame
+// (texImage2D) was the main scroll cost on phones. 1× on touch screens, ≤1.5× on desktops.
+const MS = Math.min(DPR, TOUCH_UI ? 1 : 1.5);
 /* ---------------- Glass settings (fixed) ---------------- */
 const S={refract:26,bevel:20,blur:.6,ca:.35,zoom:1.07}; // stronger lens: wider bevel, interior magnification
 const bar=document.getElementById('bar');
@@ -129,7 +133,7 @@ function drawText(node,cs,oy,H){
     const t=txt.slice(w.s[i],w.e[i]); mctx.fillText(up?t.toUpperCase():t,r.left,r.top+r.height/2); }
 }
 function drawMirror(r){
-  const W=r.width+2*P, H=r.height+2*P, s=DPR;
+  const W=r.width+2*P, H=r.height+2*P, s=MS;
   const pw=Math.round(W*s), ph=Math.round(H*s);
   if(mirror.width!==pw||mirror.height!==ph){mirror.width=pw;mirror.height=ph;}
   const ox=r.left-P, oy=r.top-P;
@@ -155,7 +159,7 @@ function drawMirror(r){
   mctx.globalAlpha=1;
 }
 function sampleTone(){
-  pctx.drawImage(mirror,P*DPR,P*DPR,mirror.width-2*P*DPR,mirror.height-2*P*DPR,0,0,16,4);
+  pctx.drawImage(mirror,P*MS,P*MS,mirror.width-2*P*MS,mirror.height-2*P*MS,0,0,16,4);
   const d=pctx.getImageData(0,0,16,4).data; let l=0;
   for(let i=0;i<d.length;i+=4) l+=(.299*d[i]+.587*d[i+1]+.114*d[i+2])/255;
   return l/(d.length/4);
@@ -205,7 +209,8 @@ document.addEventListener('load',wake,true);
 function frame(now){
   const dt=Math.min(.05,(now-last)/1000); last=now; frameN++;
   const moving=(ind.on>.02&&ind.on<.98)||Math.abs(ind.vx)>.5||Math.abs(ind.vw)>.5;
-  if(gl&&(idle<40||moving||(liveMedia&&frameN%2===0))) renderGlass(dt);
+  const step=TOUCH_UI?2:1;   // phones: glass at 30fps while scrolling, leaving the frame budget to the page
+  if(gl&&(moving||((idle<40||liveMedia)&&frameN%(liveMedia&&idle>=40?2:step)===0))) renderGlass(dt);
   idle++;
   requestAnimationFrame(frame);
 }
