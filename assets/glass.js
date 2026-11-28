@@ -111,13 +111,31 @@ function collect(ox,oy,W,H){
     for(let x=Math.max(1,ox+4);x<Math.min(innerWidth,ox+W);x+=step)
       for(const el of document.elementsFromPoint(x,y)){ if(el===document.documentElement||el===document.body||bar.contains(el)) continue; set.add(el); }
   for(const el of document.querySelectorAll('[data-mirror]')) set.add(el);
-  return [...set].sort(docOrder);
+  const zOf=el=>{ const c=el.closest&&el.closest('a.card'); return c&&c._z?+c._z:0; };
+  return [...set].sort((a,b)=>{ const za=zOf(a), zb=zOf(b); return za!==zb?za-zb:docOrder(a,b); });
 }
 const transparent=c=>!c||c==='transparent'||/rgba\(0, 0, 0, 0\)|\/ 0\)$/.test(c);
 function hole(b){ mctx.save(); mctx.globalCompositeOperation='destination-out'; mctx.fillRect(b.left,b.top,b.width,b.height); mctx.restore(); }
 function cover(el,sw,sh,b){ const sc=Math.max(b.width/sw,b.height/sh), dw=sw*sc, dh=sh*sc;
   mctx.save(); mctx.beginPath(); mctx.rect(b.left,b.top,b.width,b.height); mctx.clip();
   try{ mctx.drawImage(el,b.left+(b.width-dw)/2,b.top+(b.height-dh)/2,dw,dh); }catch(e){} mctx.restore(); }
+
+/* Cards tilted by rise.js (phones): mirror them with their real perspective shape instead of their 2D bounding box,
+   which used to paint a neighbour's full rectangle over the card actually visible behind the bar (e.g. ATHLER).
+   The card is drawn in horizontal bands, each projected like CSS translateY·perspective(900px)·rotateX·scale. */
+function drawTilted(el,card,sw,sh){
+  const t=card._rx, op=card.offsetParent; if(!t||!op) return false;
+  const pr=op.getBoundingClientRect(), L=pr.left+card.offsetLeft, T=pr.top+card.offsetTop, w=card.offsetWidth, h=card.offsetHeight;
+  const cx=L+w/2, cy=T+h/2, ca=Math.cos(t.a*Math.PI/180), sa=Math.sin(t.a*Math.PI/180);
+  const proj=yRel=>{ const y=yRel*t.sc, z=y*sa, f=900/(900-z); return {y:cy+t.ty+y*ca*f, hw:(w/2)*t.sc*f}; };
+  const sc=Math.max(w/sw,h/sh), cw=w/sc, chh=h/sc, sx0=(sw-cw)/2, sy0=(sh-chh)/2;   // object-fit: cover crop
+  const N=12;
+  for(let j=0;j<N;j++){
+    const a=proj(-h/2+h*j/N), b=proj(-h/2+h*(j+1)/N), top=Math.min(a.y,b.y), bh=Math.abs(b.y-a.y)+.6, hw=(a.hw+b.hw)/2;
+    try{ mctx.drawImage(el,sx0,sy0+chh*j/N,cw,chh/N,cx-hw,top,hw*2,bh); }catch(e){ return true; }
+  }
+  return true;
+}
 const wordCache=new WeakMap(), rng=document.createRange();
 function drawText(node,cs,oy,H){
   const txt=node.textContent; let w=wordCache.get(node);
@@ -151,8 +169,8 @@ function drawMirror(r){
     if(!transparent(cs.backgroundColor)){ mctx.fillStyle=cs.backgroundColor; mctx.fillRect(b.left,b.top,b.width,b.height); }
     const tag=el.tagName;
     if(tag==='IFRAME') hole(b);
-    else if(tag==='IMG'){ if(IS_FILE||xorigin(el)) hole(b); else if(el.complete&&el.naturalWidth) cover(el,el.naturalWidth,el.naturalHeight,b); }
-    else if(tag==='VIDEO'){ if(!el.paused) liveMedia=true; if(IS_FILE||xorigin(el)) hole(b); else if(el.readyState>=2&&el.videoWidth) cover(el,el.videoWidth,el.videoHeight,b); }
+    else if(tag==='IMG'){ if(IS_FILE||xorigin(el)) hole(b); else if(el.complete&&el.naturalWidth){ const cd=el.closest('a.card'); if(!(cd&&cd._rx&&drawTilted(el,cd,el.naturalWidth,el.naturalHeight))) cover(el,el.naturalWidth,el.naturalHeight,b); } }
+    else if(tag==='VIDEO'){ if(!el.paused) liveMedia=true; if(IS_FILE||xorigin(el)) hole(b); else if(el.readyState>=2&&el.videoWidth){ const cd=el.closest('a.card'); if(!(cd&&cd._rx&&drawTilted(el,cd,el.videoWidth,el.videoHeight))) cover(el,el.videoWidth,el.videoHeight,b); } }
     else if(tag==='CANVAS'){ if(el.width){ liveMedia=true; mctx.drawImage(el,b.left,b.top,b.width,b.height); } }
     for(const c of el.childNodes) if(c.nodeType===3&&c.textContent.trim()) drawText(c,cs,oy,H);
   }

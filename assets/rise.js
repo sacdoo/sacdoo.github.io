@@ -12,12 +12,12 @@
         PULL=.65,    // compression strength: visual distance = d/(1+PULL·d) → smooth, always-moving tighter stacking
         SHRINK=.1;   // slight scale-down at the edges
   const cards=[...grid.querySelectorAll('a.card')], vis=new Set();
-  const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) vis.add(e.target); else { vis.delete(e.target); e.target.style.transform=''; e.target.style.zIndex=''; e.target._tf=e.target._z=''; } }); kick(); },{rootMargin:'60% 0px'});
+  const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) vis.add(e.target); else { vis.delete(e.target); e.target.style.transform=''; e.target.style.zIndex=''; e.target._tf=e.target._z=''; e.target._rx=null; } }); kick(); },{rootMargin:'60% 0px'});
   cards.forEach(c=>io.observe(c));
   let raf=0;
   function update(){
     raf=0;
-    if(grid.classList.contains('as-list')){ cards.forEach(c=>{ c.style.transform=''; c.style.zIndex=''; c._tf=c._z=''; }); return; }
+    if(grid.classList.contains('as-list')){ cards.forEach(c=>{ c.style.transform=''; c.style.zIndex=''; c._tf=c._z=''; c._rx=null; }); return; }
     const h=innerHeight, mid=h/2, list=[...vis], tops=new Map();
     // read everything first, then write: interleaving rect reads with transform writes forced a style
     // recalculation per card per frame
@@ -33,6 +33,7 @@
       const a=s*Math.pow(k,CURVE)*MAX, sc=1-SHRINK*k;
       const tf=`translateY(${ty.toFixed(1)}px) perspective(900px) rotateX(${a.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
       const z=k<.001?'3':String(2-Math.round(k*2));              // centre card above its neighbours
+      c._rx={ty,a,sc};                                              // glass.js mirrors the card with the same 3D shape
       if(c._tf!==tf){ c.style.transform=tf; c._tf=tf; }
       if(c._z!==z){ c.style.zIndex=z; c._z=z; }
     });
