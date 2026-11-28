@@ -365,7 +365,7 @@ body:not([data-page="project"]){--gutter:32px}
 .big-role{grid-column:1 / -1;margin:128px 0 0}
 @media (min-width:721px){.big-role{width:min(100%,78.2vw)}}   /* text-pressure fits the word to this box → ≈170px type at 1440 */
 @media (max-width:720px){
-  .contact .wrap{grid-template-columns:minmax(0,1fr);padding-block:56px calc(env(safe-area-inset-bottom,0px) + 104px)}  /* clear of the bottom menu */
+  .contact .wrap{grid-template-columns:minmax(0,1fr);padding-block:56px calc(env(safe-area-inset-bottom,0px) + 40px)}
   .contact h2.sec-label{margin-bottom:20px}
   .contact .mail{font-size:26px;padding-bottom:4px}
   .contact .sns-row{justify-self:start;margin-top:28px}
@@ -477,3 +477,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* phones: lets the flat centre card sit above the tilted, overlapping neighbours (z-index from rise.js) */
 @media (hover: none){.grid:not(.as-list) .card{position:relative}}
+
+/* Phones (≤720px): no navigation bar (glass.js doesn't start either) */
+@media (max-width:720px){#bar,#glass{display:none!important}}

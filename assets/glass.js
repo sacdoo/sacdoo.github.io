@@ -1,6 +1,8 @@
 /* Liquid glass menubar: WebGL refraction of a repainted copy of the page behind the bar.
    Elements marked data-mirror="media|text|box" are repainted. Falls back to CSS blur. */
 (() => {
+// phones (≤720px): no navigation bar at all, so the glass never starts (CSS hides the bar)
+if(matchMedia('(max-width: 720px)').matches) return;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
 const TOUCH_UI = !matchMedia('(hover: hover) and (pointer: fine)').matches;
