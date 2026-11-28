@@ -474,3 +474,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* touch devices: horizontal finger drags drive the signature, vertical swipes still scroll the page */
 @media (hover: none){.big-role{touch-action:pan-y;overflow-x:clip}}
+
+/* phones: lets the flat centre card sit above the tilted, overlapping neighbours (z-index from rise.js) */
+@media (hover: none){.grid:not(.as-list) .card{position:relative}}
