@@ -1,7 +1,7 @@
 /* Text Pressure (after React Bits "TextPressure"), vanilla JS.
    Hovering (or touch-dragging on phones) the big "Brand Animator": each letter's width (wdth) and
    weight (wght) follow pointer distance on Roboto Flex. Each line's overall width is held constant.
-   Desktop: one line fitted to the column. Narrow screens (≤720px): two lines, "Brand" / "Animator".
+   Desktop: one line fitted to the column. Narrow screens (≤720px): two lines, "SAC" / "STUDIO". Both ends of every line stay fixed.
    Touch devices (no hover): the letters unfold one after another as the footer scrolls into view
    (narrow + light → full), and a finger dragged across the word acts like the desktop cursor. */
 (function(){
@@ -36,7 +36,8 @@
   }
   // hold each line at its idle width (cursor/drag effect); in the touch scroll-unfold the word grows freely.
   // The scale eases so switching between the two never pops.
-  function hold(ease){ lines.forEach(l=>{ const t=(!TOUCH||active)?l.idle/l.el.offsetWidth:1; l.s=ease?l.s+(t-l.s)*.2:t; l.el.style.transform=`scaleX(${l.s.toFixed(4)})`; }); }
+  // both ends stay pinned to the margins in every mode: each line is scaled back to its idle (fitted) width
+  function hold(){ lines.forEach(l=>{ l.s=l.idle/l.el.offsetWidth; l.el.style.transform=`scaleX(${l.s.toFixed(4)})`; }); }
   function loop(){
     const r=host.getBoundingClientRect(), maxD=Math.max(r.width,1)/2;
     let moving=false;
@@ -54,8 +55,7 @@
       if(Math.abs(tw-c.w)>.2||Math.abs(tg-c.g)>1) moving=true;
       apply(c);
     });
-    hold(true);
-    if(lines.some(l=>Math.abs(l.s-((!TOUCH||active)?l.idle/l.el.offsetWidth:1))>.002)) moving=true;
+    hold();
     raf=(active||moving)?requestAnimationFrame(loop):0;
   }
   const kick=()=>{ if(!raf) raf=requestAnimationFrame(loop); };
