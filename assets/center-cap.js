@@ -10,14 +10,18 @@
   const io=new IntersectionObserver(es=>{ es.forEach(e=>e.isIntersecting?vis.add(e.target):vis.delete(e.target)); kick(); });
   cards.forEach(c=>io.observe(c));
   let active=null, raf=0, lastY=scrollY, lastT=0, vel=0, rot=0, rv=0;
+  // layout box without the rise.js 3D transform: tilted cards are pulled toward the middle, so their
+  // transformed rects reached the centre early and a card above/below (e.g. ATHLER) got picked and played
+  const box=c=>{ const op=c.offsetParent; if(!op) return c.getBoundingClientRect(); const t=op.getBoundingClientRect().top+c.offsetTop; return {top:t,bottom:t+c.offsetHeight,height:c.offsetHeight}; };
   function choose(){
     if(grid.classList.contains('as-list')) return null;
     const mid=innerHeight/2;
-    if(active&&vis.has(active)){ const r=active.getBoundingClientRect(); if(r.top<mid&&r.bottom>mid) return active; }  // still spans the middle: keep
+    if(active&&vis.has(active)){ const r=box(active); if(r.top<mid&&r.bottom>mid) return active; }  // still spans the middle: keep
     let best=null, bd=1e9;
-    for(const c of vis){ const r=c.getBoundingClientRect(); if(r.bottom<innerHeight*.18||r.top>innerHeight*.82) continue;
+    const band=innerHeight*.12;   // only a card reaching the central band (where rise.js keeps it flat) counts as selected
+    for(const c of vis){ const r=box(c); if(r.bottom<mid-band||r.top>mid+band) continue;
       const d=Math.abs(r.top+r.height/2-mid); if(d<bd){ best=c; bd=d; } }
-    if(!best&&active&&vis.has(active)) return active;          // nothing new in the middle → keep the current label up
+    // (the central band always overlaps a card inside the grid, so no gap handling is needed; past the grid's ends nothing is selected)
     return best;
   }
   // the card with the label up plays its clip (video thumbnails only).
