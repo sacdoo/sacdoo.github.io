@@ -14,6 +14,17 @@
         SHRINK=.1;   // slight scale-down at the edges
   const cards=[...grid.querySelectorAll('a.card')], vis=new Set();
 
+  /* Top of the page: the first thumbnail peeks over the hero video (under the "Scroll" cue), then settles into
+     the stack as you scroll. PEEK_AT = where its tilted top edge sits on screen at scroll 0 (share of height). */
+  const PEEK_AT=.87;
+  function peekOffset(h,hh,top0){   // px to lift card 1 at scroll 0 so its projected top edge lands at PEEK_AT·h
+    const mid=h/2, D=mid+hh/2, cy=top0+hh/2, raw=(cy-mid)/D, x=Math.min(1,Math.abs(raw)), sg=Math.sign(raw)||1;
+    const k=Math.max(0,x-FLAT)/(1-FLAT), ty=sg*(x/(1+PULL*x)-x)*D, a=sg*Math.pow(k,CURVE)*MAX*Math.PI/180, sc=1-SHRINK*k;
+    const y=-hh/2*sc, f=900/(900-y*Math.sin(a)), visTop=cy+ty+y*Math.cos(a)*f;
+    return Math.max(0,visTop-PEEK_AT*h);
+  }
+  const pageTop=c=>{ let t=0,e=c; while(e){ t+=e.offsetTop; e=e.offsetParent; } return t; };
+
   /* Preferred path: CSS scroll-driven animations. The browser evaluates the stack on the compositor in step
      with the scroll, so fast flings no longer leave cards a frame behind (the JS version lagged by tens of px
      per frame once cards were pulled toward the centre, which read as ghosting). Keyframes sample the same
@@ -44,7 +55,10 @@
       // The card itself never moves: it only defines the view timeline. The animation runs on its inner .tilt.
       // Safari measures a view timeline's subject *with* its transform, so animating the card itself fed the
       // pull back into its own progress — cards crept toward the screen edge and piled up / shimmered there.
-      st.textContent=`@keyframes rise-stack{${kf}}
+      const P=peekOffset(h,hh,pageTop(c0)), R=Math.max(1,Math.round(pageTop(c0)-h*.25));
+      const peek=P>0?`@keyframes rise-peek{from{transform:translateY(${(-P).toFixed(0)}px)}to{transform:none}}
+        #grid:not(.as-list) a.card:first-child{animation:rise-peek linear both;animation-timing-function:cubic-bezier(.3,0,.4,1);animation-timeline:scroll(root block);animation-range:0px ${R}px}`:'';
+      st.textContent=`@keyframes rise-stack{${kf}}${peek}
         #grid:not(.as-list) a.card{position:relative;view-timeline:--rise-card block;will-change:auto;transform:none}
         #grid:not(.as-list) a.card > .tilt{animation:rise-stack linear both;animation-timeline:--rise-card;animation-range:cover 0% cover 100%;will-change:transform}
         ${push}`;
@@ -74,12 +88,13 @@
       return {cy:tops.get(op)+c.offsetTop+c.offsetHeight/2, hh:c.offsetHeight}; });
     list.forEach((c,i)=>{ const p=pos[i]; if(!p) return;
       const raw=(p.cy-mid)/(mid+p.hh/2);                           // -1 top edge … 0 centre … 1 bottom edge
-      if(Math.abs(raw)>2.2&&pe===0){ if(c._tf){ c.style.transform=''; c.style.zIndex=''; c._tf=c._z=''; c._rx=null; } return; }   // far off screen: untouched
+      if(Math.abs(raw)>2.2&&pe===0&&i!==0){ if(c._tf){ c.style.transform=''; c.style.zIndex=''; c._tf=c._z=''; c._rx=null; } return; }   // far off screen: untouched
       const u=Math.max(-1,Math.min(1,raw));
       const k=Math.max(0,Math.abs(u)-FLAT)/(1-FLAT), s=Math.sign(u);
       // smooth, monotonic pull toward the centre: every card keeps moving, slowing gradually toward the edges
       const D=mid+p.hh/2, x=Math.min(1,Math.abs(raw));               // past the edge the offset stays constant (same as the CSS version's fill), so off-screen cards never converge into a pile
       let ty=Math.sign(raw)*(x/(1+PULL*x)-x)*D;
+      if(i===0){ const t0=pageTop(c), P=peekOffset(h,p.hh,t0), R=Math.max(1,t0-h*.25), q=Math.min(1,scrollY/R); ty-=P*(1-(q*q*(3-2*q))); }   // peek over the hero at the top
       if(pe>0) ty-=pe*h*(.55+.45*Math.max(0,Math.min(1,(p.cy/h))));     // push-up for the About hand-off
       // tilt: from the layout position normally; while being pushed, from where the card actually is on screen
       // (cards heading for the top take on the top cards' lean), blended by the push amount

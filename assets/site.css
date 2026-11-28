@@ -491,3 +491,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);-webkit-tap-highlight-color:transparent;transition:transform .2s ease}
   .all-projects:active{transform:scale(.95)}
 }
+
+/* the "Scroll" cue stays above the first thumbnail that peeks over the hero */
+.scroll-cue{z-index:20}
