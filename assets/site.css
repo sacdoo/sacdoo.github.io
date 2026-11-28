@@ -494,3 +494,6 @@ body[data-page="project"][data-bg="white"] .contact .sns{color:var(--ink)}
 
 /* the "Scroll" cue stays above the first thumbnail that peeks over the hero */
 .scroll-cue{z-index:20}
+
+/* Phones: section labels (Work / About / Contact) at half size */
+@media (max-width:720px){.sec-label,.work-head h2.sec-label,.contact h2.sec-label{font-size:21px}}
