@@ -41,8 +41,12 @@
           #about .ab-lead{view-timeline-name:--rise-about}
           #grid:not(.as-list){animation:rise-push linear both;animation-timing-function:cubic-bezier(.45,0,.55,1);animation-timeline:--rise-about;animation-range:cover ${p0.toFixed(2)}% cover ${p1.toFixed(2)}%}`;
       }
+      // The card itself never moves: it only defines the view timeline. The animation runs on its inner .tilt.
+      // Safari measures a view timeline's subject *with* its transform, so animating the card itself fed the
+      // pull back into its own progress — cards crept toward the screen edge and piled up / shimmered there.
       st.textContent=`@keyframes rise-stack{${kf}}
-        #grid:not(.as-list) a.card{position:relative;animation:rise-stack linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+        #grid:not(.as-list) a.card{position:relative;view-timeline:--rise-card block;will-change:auto;transform:none}
+        #grid:not(.as-list) a.card > .tilt{animation:rise-stack linear both;animation-timeline:--rise-card;animation-range:cover 0% cover 100%;will-change:transform}
         ${push}`;
     };
     gen(); addEventListener('resize',gen); addEventListener('load',gen);
